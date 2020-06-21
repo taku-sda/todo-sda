@@ -41,7 +41,10 @@ public class Home extends HttpServlet {
 			//ToDoの一覧を取得
 			List<Item> itemList = HomeLogic.exectute(userId);
 
-			//ToDoの一覧を期限ごとに分類
+			//ToDoの一覧を期限順にソート
+			HomeLogic.sortItem(itemList);
+
+			//ToDoの一覧を期限、状態で分類
 			List<List<Item>> resultList = HomeLogic.classificationItem(itemList);
 			List<Item> completedList = resultList.get(0);
 			List<Item> expiredList = resultList.get(1);

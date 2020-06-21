@@ -194,7 +194,7 @@ public class ItemDAO {
 
 	}
 
-	//itemIDに対応するToDoをデータベースから削除するメソッド
+
 	/**
 	 * itemIDに対応するToDoをデータベースから削除するメソッド
 	 *
@@ -264,7 +264,6 @@ public class ItemDAO {
 	}
 
 
-	//期限切れのToDoを全てデータベースから削除するメソッド
 	/**
 	 * 期限が現在よりも前のToDoをすべて削除するメソッド
 	 *
@@ -297,7 +296,6 @@ public class ItemDAO {
 	}
 
 
-	//完了のToDoを全てデータベースから削除するメソッド
 	/**
 	 * 完了状態のToDoをすべて削除するメソッド
 	 *
@@ -329,7 +327,6 @@ public class ItemDAO {
 	}
 
 
-	//LocalDateTimeからpostgresql変換用のtimestamp文字列を作成するメソッド
 	/**
 	 * LocalDateTimeをPostgreSQL対応のtimestamp文字列に変換するメソッド
 	 *
