@@ -45,17 +45,17 @@
 	</div>
 
 	<%--ユーザー情報、日時表示 --%>
-	<div class="container my-3">
+	<div class="container mt-5 mb-3">
 		<h6>
 			ようこそ
 			<c:out value="${userId}" />
 			さん！<%=JSPHelper.getLogout()%></h6>
-		<h3><%=JSPHelper.getNow()%></h3>
+		<h4><%=JSPHelper.getNow()%></h4>
 	</div>
 
 	<%--ページメイン --%>
 	<div class="container">
-		<h1 class="display-3 mb-4">使い方</h1>
+		<h1 class="display-4 mb-4">使い方</h1>
 
 		<%--サイトの説明 --%>
 		<div class="jambotron bg-light p-2">
@@ -84,7 +84,7 @@
 					ホーム画面では登録されているToDoを確認することができます。<br> ToDoは</span><span
 						class="bg-primary mx-2">ToDo一覧</span><span class="bg-warning mx-2">今日まで</span>
 					<span class="bg-success">完了</span><span class="bg-danger mx-2">期限切れ</span>の4種類で表示されます。<br>
-					ToDo一覧以外は、存在する場合のみ表示されます。
+					<br> ToDo一覧以外は、存在する場合のみ表示されます。
 				</p>
 			</div>
 		</div>
@@ -97,11 +97,9 @@
 		<div class="collapse" id="add">
 			<div class="card card-body">
 				<p>
-					<span class="bg-primary mr-2">ToDo一覧</span>そばの<a href="#"
-						class="btn btn-secondary mx-2">ToDoの追加</a>を選び、ToDo追加画面を開きます。<br>
-					タイトル、期限、重要度、メモ（任意）を入力して
-					<button type="button" class="btn btn-primary mx-2">ToDoの追加</button>
-					を選ぶとToDoが追加されます。<br> また、画面上部のメニューバーの<a href="#">ToDoの追加</a>からも行うことができます。
+					<span class="bg-primary mr-2">ToDo一覧</span>そばの<strong>ToDoの追加</strong>ボタンを選び、ToDo追加画面を開きます。<br>
+					タイトル、期限、重要度、メモ（任意）を入力して<strong>ToDoを追加</strong>ボタンを選ぶとToDoが追加されます。<br><br>
+					また、画面上部のメニューバーの<a href="#">ToDoの追加</a>からも行うことができます。
 				</p>
 			</div>
 		</div>
@@ -114,7 +112,7 @@
 		<div class="collapse" id="detail">
 			<div class="card card-body">
 				<p>
-					ホーム画面で<a href="#" rel="nofollow">ToDoのタイトル</a>を選ぶことでToDoの詳細を確認できます。<br>
+					ホーム画面で<a href="#" rel="nofollow">ToDoのタイトル</a>を選ぶことでToDoの詳細を確認できます。<br><br>
 					詳細画面では内容の修正、ToDoの削除などを行うことができます。
 				</p>
 			</div>
@@ -128,7 +126,7 @@
 		<div class="collapse" id="complete">
 			<div class="card card-body">
 				<p>
-					<span class="bg-primary mr-2">ToDo一覧</span>の<a href="#">完了</a>を選ぶことで、そのToDoを完了させることができます。<br>
+					<span class="bg-primary mr-2">ToDo一覧</span>の<a href="#">済</a>を選ぶことで、そのToDoを完了させることができます。<br><br>
 					完了したToDoは<span class="bg-success mx-2">完了</span>に移動します。
 				</p>
 			</div>
@@ -142,7 +140,7 @@
 		<div class="collapse" id="expired">
 			<div class="card card-body">
 				<p>
-					設定した期限を過ぎたToDoは<span class="bg-danger mx-2">期限切れ</span>に移動します。<br>
+					設定した期限を過ぎたToDoは<span class="bg-danger mx-2">期限切れ</span>に移動します。<br><br>
 					ToDoの詳細画面から期限を再設定することができます。
 				</p>
 			</div>
@@ -157,10 +155,8 @@
 			<div class="card card-body">
 				<p>
 					ホーム画面で<a href="#" rel="nofollow">ToDoのタイトル</a>を選び、ToDoの詳細画面を開きます。<br>
-					<button type="button" class="btn btn-secondary mx-2">ToDoを削除</button>
-					を選びます。<br> また、完了、期限切れのToDoについてはホーム画面の<a href="#">削除</a>または
-					<button type="button" class="btn btn-secondary mx-2">一括削除</button>
-					でも削除することができます。
+					<strong>ToDoを削除</strong>ボタンを選ぶと削除することができます。<br>
+					<br> また、完了、期限切れのToDoについてはホーム画面の<a href="#">削除</a>または<strong>一括削除</strong>ボタンでも削除することができます。
 				</p>
 			</div>
 		</div>

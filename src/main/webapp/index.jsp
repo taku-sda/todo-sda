@@ -44,15 +44,15 @@
 	</div>
 
 	<%--ページメイン --%>
-	<div class="mx-5 mt-5">
+	<div class="mx-5 mt-3">
 		<%--サイト解説 --%>
-		<h1>ToDo!!とは・・・</h1>
-		<p>
+		<h1>ToDo!!とは</h1>
+		<p class="mt-3">
 			やること（ToDo）の管理を行うことができる<strong>ToDoアプリケーションサイト</strong>です。<br> <br>
 			初めての方はユーザー登録<br> 登録済みの方はログインからすぐに利用することができます
 		</p>
 		<%--ユーザー登録、ログインボタン --%>
-		<div class="mt-5">
+		<div class="my-5">
 			<a href="/Register" class="btn btn-primary">ユーザー登録</a> <a
 				href="/Login" class="btn btn-primary ml-4">ログイン</a>
 		</div>

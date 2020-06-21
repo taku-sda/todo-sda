@@ -45,12 +45,12 @@
 	</div>
 
 	<%--ユーザー情報、日時表示 --%>
-	<div class="container my-3">
+	<div class="container mt-5 mb-3">
 		<h6>
 			ようこそ
 			<c:out value="${userId}" />
 			さん！<%=JSPHelper.getLogout()%></h6>
-		<h3><%=JSPHelper.getNow()%></h3>
+		<h4><%=JSPHelper.getNow()%></h4>
 	</div>
 
 	<%--ページメイン --%>
@@ -62,7 +62,7 @@
 			<form action="/AddItem" method="post">
 
 				<%--タイトル --%>
-				<div class="form-group w-50">
+				<div class="form-group w-75">
 					<label for="title">タイトル</label><br> <input type="text"
 						class="form-control" name="title" id="title" maxlength="20"
 						required>

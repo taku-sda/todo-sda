@@ -40,12 +40,12 @@
 	</nav>
 
 	<%--ユーザー情報、日時表示 --%>
-	<div class="container my-3">
+	<div class="container mt-3">
 		<h6>
 			ようこそ
 			<c:out value="${userId}" />
 			さん！<%=JSPHelper.getLogout()%></h6>
-		<h3><%=JSPHelper.getNow()%></h3>
+		<h4><%=JSPHelper.getNow()%></h4>
 	</div>
 
 	<%--ページメイン --%>
@@ -53,7 +53,7 @@
 	<div class="container mt-5">
 		<%--ToDoが存在する場合のみ表示する --%>
 		<c:if test="${not empty todayList}">
-			<h3 class="bg-warning w-50">今日まで!!</h3>
+			<h3 class="bg-warning w-50"><div class="p-1">今日まで!!</div></h3>
 			<div class="janbotron bg-light">
 				<%--一覧をテーブルで表示 --%>
 				<table class="table">
@@ -74,7 +74,7 @@
 									href="/DetailItem?itemId=${todayList[i].getItemId()}">${todayList[i].getTitle()}</a>
 								</td>
 								<%--期限 --%>
-								<td>${todayList[i].getHour()}時${todayList[i].getMinute()}分まで</td>
+								<td>${todayList[i].getHour()}時${todayList[i].getMinute()}分</td>
 								<%--重要度 --%>
 								<td><c:choose>
 										<c:when test="${todayList[i].getImportance() == 3 }">大</c:when>
@@ -83,7 +83,7 @@
 									</c:choose></td>
 								<%--完了ボタン --%>
 								<td><a
-									href="/CompleteItem?itemId=${todayList[i].getItemId()}">完了</a></td>
+									href="/CompleteItem?itemId=${todayList[i].getItemId()}">済</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -96,11 +96,11 @@
 	<%--ToDo一覧の表示 --%>
 	<div class="container mt-5">
 		<div class="row">
-			<div class="col-sm-7">
-				<h3 class="bg-primary">ToDo一覧</h3>
+			<div class="col-6">
+				<h3 class="bg-primary"><div class="p-1">ToDo一覧</div></h3>
 			</div>
 			<%--ToDoの追加ボタン --%>
-			<div class="col-sm-5 mb-2">
+			<div class="col-6">
 				<a href="/AddItem" class="btn btn-secondary float-right">ToDoの追加</a>
 			</div>
 		</div>
@@ -134,7 +134,7 @@
 										href="/DetailItem?itemId=${otherList[i].getItemId()}">${otherList[i].getTitle()}</a>
 									</td>
 									<%--期限 --%>
-									<td>${otherList[i].getYear()}年${otherList[i].getMonth()}月${otherList[i].getDay()}日まで</td>
+									<td>${otherList[i].getYear()}/${otherList[i].getMonth()}/${otherList[i].getDay()}</td>
 									<%--重要度 --%>
 									<td><c:choose>
 											<c:when test="${otherList[i].getImportance() == 3 }">大</c:when>
@@ -143,7 +143,7 @@
 										</c:choose></td>
 									<%--完了ボタン --%>
 									<td><a
-										href="/CompleteItem?itemId=${otherList[i].getItemId()}">完了</a></td>
+										href="/CompleteItem?itemId=${otherList[i].getItemId()}">済</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -160,11 +160,11 @@
 				<%--ToDoが存在する場合のみ表示 --%>
 				<c:if test="${not empty completedList}">
 					<div class="row">
-						<div class="col-sm-7">
-							<h3 class="bg-success">完了</h3>
+						<div class="col-6">
+							<h3 class="bg-success"><div class="p-1">完了</div></h3>
 						</div>
 						<%--一括削除ボタン --%>
-						<div class="col-sm-5 mb-2">
+						<div class="col-6">
 							<a href="/DeleteAllCompletedItem"
 								class="btn btn-secondary float-right">一括削除</a>
 						</div>
@@ -199,11 +199,11 @@
 				<%--ToDoが存在する場合のみ表示 --%>
 				<c:if test="${not empty expiredList}">
 					<div class="row">
-						<div class="col-sm-7">
-							<h3 class="bg-danger">期限切れ</h3>
+						<div class="col-6">
+							<h3 class="bg-danger"><div class="p-1">期限切れ</div></h3>
 						</div>
 						<%--一括削除ボタン --%>
-						<div class="col-sm-5">
+						<div class="col-6">
 							<a href="/DeleteAllExpiredItem"
 								class="btn btn-secondary float-right">一括削除</a>
 						</div>
