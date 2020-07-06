@@ -2,7 +2,7 @@ package model;
 
 import beans.ID;
 import beans.Item;
-import dao.ItemDAO;
+import dao.ItemsDAO;
 
 /**
  * DetailItemのロジッククラス
@@ -16,7 +16,7 @@ public class DetailItemLogic {
 	 */
 	public static Item execute(ID detailId) {
 
-		return ItemDAO.searchItemByItemId(detailId);
+		return ItemsDAO.searchItemByItemId(detailId);
 	}
 
 }

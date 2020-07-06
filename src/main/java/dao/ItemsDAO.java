@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,28 +16,10 @@ import beans.Item;
 /**
  * ITEMテーブルに関する操作を行うDAOクラス
  */
-public class ItemDAO {
+public class ItemsDAO extends DAOParent{
 
-	/**データベースドライバ名*/
-	private static final String DRIVER_NAME = "org.postgresql.Driver";
-	/**データベースURL*/
-	private static final String DB_URL = System.getenv("TODO_APP_URL");
-	/**データベースログインユーザー*/
-	private static final String DB_USER = System.getenv("TODO_APP_USER");
-	/**データベースログインパスワード*/
-	private static final String DB_PASS = System.getenv("TODO_APP_PASS");
 	/**データベースから取得したDateTimeをLocalDateTimeに変換する際のフォーマット*/
 	private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-
-	static {
-		//データベースのドライバクラスのロード
-		try {
-			Class.forName(DRIVER_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 
 
 	/**
@@ -49,7 +30,7 @@ public class ItemDAO {
 	 */
 	public static boolean addItem(Item addItem) {
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			String sql = "INSERT INTO ITEMS (USERID, TITLE, MEMO, DEADLINE, COMPLETED, IMPORTANCE) VALUES(?, ?, ?, TO_TIMESTAMP(?, ?), ?, ?)";
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -86,7 +67,7 @@ public class ItemDAO {
 	 */
 	public static boolean updateItem(Item updateItem) {
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			String sql = "UPDATE ITEMS SET TITLE = ?, MEMO = ?, DEADLINE = TO_TIMESTAMP(?, ?), COMPLETED = ?, IMPORTANCE = ? WHERE ITEMID = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -125,7 +106,7 @@ public class ItemDAO {
 		/**検索結果のToDoを格納するリスト*/
 		List<Item> itemList = new ArrayList<>();
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			String sql = "SELECT ITEMID, TITLE, DEADLINE, COMPLETED, IMPORTANCE FROM ITEMS WHERE USERID=?";
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -166,7 +147,7 @@ public class ItemDAO {
 		/**ToDo情報を格納するItemインスタンス*/
 		Item detailItem = null;
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			String sql = "SELECT TITLE, MEMO, DEADLINE , COMPLETED, IMPORTANCE FROM ITEMS WHERE ITEMID=? AND USERID=?";
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -203,7 +184,7 @@ public class ItemDAO {
 	 */
 	public static boolean deleteItem(ID deleteId) {
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			//SQLの実行
 			String sql = "DELETE FROM ITEMS WHERE ITEMID = ? AND USERID=?";
@@ -237,7 +218,7 @@ public class ItemDAO {
 	 */
 	public static boolean completeItem(ID completeId) {
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			//SQLの実行
 			String sql = "UPDATE ITEMS SET COMPLETED=? WHERE ITEMID=? AND USERID=?";
@@ -271,7 +252,7 @@ public class ItemDAO {
 	 */
 	public static boolean deleteAllExpiredItem() {
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			//SQLの実行
 			String sql = "DELETE FROM ITEMS WHERE DEADLINE < TO_TIMESTAMP(?, ?) AND COMPLETED = FALSE";
@@ -303,7 +284,7 @@ public class ItemDAO {
 	 */
 	public static boolean deleteAllCompletedItem() {
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			//SQLの実行
 			String sql = "DELETE FROM ITEMS WHERE COMPLETED = ?";

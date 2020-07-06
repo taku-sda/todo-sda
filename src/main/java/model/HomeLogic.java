@@ -8,7 +8,7 @@ import java.util.List;
 
 import beans.Item;
 import comparator.DeadLineComparator;
-import dao.ItemDAO;
+import dao.ItemsDAO;
 
 /**
  * Homeサーブレットのロジッククラス
@@ -23,7 +23,7 @@ public class HomeLogic {
 	 */
 	public static List<Item> exectute(String userId) {
 
-		return ItemDAO.searchItemByUserId(userId);
+		return ItemsDAO.searchItemByUserId(userId);
 	}
 
 

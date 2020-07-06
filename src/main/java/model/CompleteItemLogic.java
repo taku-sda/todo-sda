@@ -1,7 +1,7 @@
 package model;
 
 import beans.ID;
-import dao.ItemDAO;
+import dao.ItemsDAO;
 
 /**
  * CompleteItemのロジッククラス
@@ -16,7 +16,7 @@ public class CompleteItemLogic {
 	 */
 	public static boolean execute(ID completeId) {
 
-		return ItemDAO.completeItem(completeId);
+		return ItemsDAO.completeItem(completeId);
 	}
 
 }

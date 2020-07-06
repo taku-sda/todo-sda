@@ -1,6 +1,6 @@
 package model;
 
-import dao.ItemDAO;
+import dao.ItemsDAO;
 
 /**
  * DeleteAllCompletedItemのロジッククラス
@@ -14,7 +14,7 @@ public class DeleteAllCompletedItemLogic {
 	 */
 	public static boolean execute() {
 
-		return ItemDAO.deleteAllCompletedItem();
+		return ItemsDAO.deleteAllCompletedItem();
 	}
 
 }

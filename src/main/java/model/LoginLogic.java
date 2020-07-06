@@ -1,7 +1,7 @@
 package model;
 
 import beans.User;
-import dao.UserDAO;
+import dao.UsersDAO;
 
 /**
  * Loginサーブレットのロジッククラス
@@ -16,7 +16,7 @@ public class LoginLogic {
 	 */
 	public static boolean execute(User loginUser) {
 
-		return UserDAO.login(loginUser);
+		return UsersDAO.login(loginUser);
 	}
 
 }

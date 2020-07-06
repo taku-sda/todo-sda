@@ -1,7 +1,7 @@
 package model;
 
 import beans.User;
-import dao.UserDAO;
+import dao.UsersDAO;
 
 /**
  * Registerサーブレットのロジッククラス
@@ -16,7 +16,7 @@ public class RegisterLogic {
 	 */
 	public static boolean execute(User registerUser) {
 
-		 return UserDAO.register(registerUser);
+		 return UsersDAO.register(registerUser);
 
 	}
 

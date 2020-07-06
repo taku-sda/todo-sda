@@ -1,7 +1,7 @@
 package model;
 
 import beans.ID;
-import dao.ItemDAO;
+import dao.ItemsDAO;
 
 /**
  * DeleteItemのロジッククラス
@@ -16,7 +16,7 @@ public class DeleteItemLogic {
 	 */
 	public static boolean execute(ID deleteId) {
 
-		return ItemDAO.deleteItem(deleteId);
+		return ItemsDAO.deleteItem(deleteId);
 	}
 
 }

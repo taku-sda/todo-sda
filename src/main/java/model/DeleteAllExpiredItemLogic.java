@@ -1,6 +1,6 @@
 package model;
 
-import dao.ItemDAO;
+import dao.ItemsDAO;
 
 /**
  * DeleteALLExpiredItemのロジッククラス
@@ -14,7 +14,7 @@ public class DeleteAllExpiredItemLogic {
 	 */
 	public static boolean execute() {
 
-		return ItemDAO.deleteAllExpiredItem();
+		return ItemsDAO.deleteAllExpiredItem();
 	}
 
 }

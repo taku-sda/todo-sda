@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,27 +10,7 @@ import beans.User;
 /**
  * USERテーブルに関する操作を行うDAOクラス
  */
-public class UserDAO {
-
-	/**データベースドライバ名*/
-	private static final String DRIVER_NAME = "org.postgresql.Driver";
-	/**データベースURL*/
-	private static final String DB_URL = System.getenv("TODO_APP_URL");
-	/**データベースログインユーザー*/
-	private static final String DB_USER = System.getenv("TODO_APP_USER");
-	/**データベースログインパスワード*/
-	private static final String DB_PASS = System.getenv("TODO_APP_PASS");
-
-
-	static {
-		//データベースのドライバクラスのロード
-		try {
-			Class.forName(DRIVER_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
+public class UsersDAO extends DAOParent {
 
 	/**
 	 *	ユーザー情報を登録するメソッド
@@ -41,7 +20,7 @@ public class UserDAO {
 	 */
 	public static boolean register(User registerUser) {
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			String sql = "SELECT * FROM USERS WHERE USERID = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -79,7 +58,7 @@ public class UserDAO {
 	 */
 	public static boolean login(User loginUser) {
 
-		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+		try (Connection con = DAOParent.createConnection()) {
 
 			String sql = "SELECT * FROM USERS WHERE USERID = ? AND PASS = ?";
 			PreparedStatement ps = con.prepareStatement(sql);

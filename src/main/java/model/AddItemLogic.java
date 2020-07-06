@@ -1,7 +1,7 @@
 package model;
 
 import beans.Item;
-import dao.ItemDAO;
+import dao.ItemsDAO;
 
 /**
  * AddItemのロジッククラス
@@ -16,7 +16,7 @@ public class AddItemLogic {
 	 */
 	public static boolean execute(Item addItem) {
 
-		return ItemDAO.addItem(addItem);
+		return ItemsDAO.addItem(addItem);
 
 	}
 
