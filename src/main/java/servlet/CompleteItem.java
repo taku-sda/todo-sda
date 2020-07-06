@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.ID;
 import model.CompleteItemLogic;
 
 /**
@@ -35,12 +34,10 @@ public class CompleteItem extends HttpServlet {
 		} else {
 			//ログインしている場合の処理
 
-			//完了させるToDoのIDを設定
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
-			ID completeId = new ID(itemId, userId);
 
 			//ToDoを完了させる
-			boolean result = CompleteItemLogic.execute(completeId);
+			boolean result = CompleteItemLogic.execute(itemId, userId);
 
 			if (result) {
 				//ToDoの削除処理に成功した場合はホーム画面にリダイレクト

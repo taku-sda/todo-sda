@@ -1,6 +1,5 @@
 package model;
 
-import beans.ID;
 import dao.ItemsDAO;
 
 /**
@@ -9,14 +8,15 @@ import dao.ItemsDAO;
 public class DeleteItemLogic {
 
 	/**
-	 * ToDoの削除を行うメソッド
+	 * itemIdのToDoがログインしているユーザーのものであれば、削除を行うメソッド
 	 *
-	 * @param deleteId		削除するToDoのID
-	 * @return		削除に成功したらtrue
+	 * @param itemId		削除するToDoのID
+	 * @param userId		ログインしているユーザーのID
+	 * @return				削除に成功したらtrue
 	 */
-	public static boolean execute(ID deleteId) {
+	public static boolean execute(int itemId, String userId) {
 
-		return ItemsDAO.deleteItem(deleteId);
+		return ItemsDAO.deleteItem(itemId, userId);
 	}
 
 }

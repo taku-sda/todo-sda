@@ -10,7 +10,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import beans.ID;
 import beans.Item;
 
 /**
@@ -137,12 +136,13 @@ public class ItemsDAO extends DAOParent{
 
 
 	/**
-	 * itemIdに対応するToDoの詳細を取得するメソッド
+	 * ITEMIDとUSERIDに対応するToDoの詳細を取得するメソッド
 	 *
-	 * @param detailId	取得するToDoのitemId
-	 * @return		取得したToDo情報(存在しない場合はnull)
+	 * @param itemId	ITEMID
+	 * @param userId	USERID
+	 * @return			取得したToDo情報(存在しない場合はnull)
 	 */
-	public static Item searchItemByItemId(ID detailId) {
+	public static Item searchItemByItemId(int itemId, String userId) {
 
 		/**ToDo情報を格納するItemインスタンス*/
 		Item detailItem = null;
@@ -151,14 +151,14 @@ public class ItemsDAO extends DAOParent{
 
 			String sql = "SELECT TITLE, MEMO, DEADLINE , COMPLETED, IMPORTANCE FROM ITEMS WHERE ITEMID=? AND USERID=?";
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, detailId.getItemId());
-			ps.setString(2, detailId.getUserId());
+			ps.setInt(1, itemId);
+			ps.setString(2, userId);
 			ResultSet rs = ps.executeQuery();
 
 			//ToDoが存在する場合は詳細を格納
 			if (rs.next()) {
 				detailItem = new Item();
-				detailItem.setItemId(detailId.getItemId());
+				detailItem.setItemId(itemId);
 				detailItem.setTitle(rs.getString("TITLE"));
 				detailItem.setMemo(rs.getString("MEMO"));
 				//取得したDateTimeをLocalDateTimeに変換
@@ -177,20 +177,21 @@ public class ItemsDAO extends DAOParent{
 
 
 	/**
-	 * itemIDに対応するToDoをデータベースから削除するメソッド
+	 * ITEMIDとUSERIDに対応するToDoをデータベースから削除するメソッド
 	 *
-	 * @param deleteId		削除するToDoのitemId
-	 * @return		削除に成功した場合はtrue
+	 * @param itemId	ITEMID
+	 * @param userId	USERID
+	 * @return			削除に成功した場合はtrue
 	 */
-	public static boolean deleteItem(ID deleteId) {
+	public static boolean deleteItem(int itemId, String userId) {
 
 		try (Connection con = DAOParent.createConnection()) {
 
 			//SQLの実行
 			String sql = "DELETE FROM ITEMS WHERE ITEMID = ? AND USERID=?";
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, deleteId.getItemId());
-			ps.setString(2, deleteId.getUserId());
+			ps.setInt(1, itemId);
+			ps.setString(2, userId);
 
 			//実行結果を取得
 			int result = ps.executeUpdate();
@@ -210,13 +211,14 @@ public class ItemsDAO extends DAOParent{
 
 
 	/**
-	 * itemIdとuserIdに対応するToDoを完了状態にするメソッド
+	 * ITEMIDとUSERIDに対応するToDoを完了状態にするメソッド
 	 *
 	 *
-	 * @param completeId		完了させるToDoのID
-	 * @return		完了状態への変更が実行されたらtrue
+	 * @param itemId 	ITEMID
+	 * @param userId   USERID
+	 * @return			完了状態への変更が実行されたらtrue
 	 */
-	public static boolean completeItem(ID completeId) {
+	public static boolean completeItem(int itemId, String userId) {
 
 		try (Connection con = DAOParent.createConnection()) {
 
@@ -224,8 +226,8 @@ public class ItemsDAO extends DAOParent{
 			String sql = "UPDATE ITEMS SET COMPLETED=? WHERE ITEMID=? AND USERID=?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setBoolean(1, true);
-			ps.setInt(2, completeId.getItemId());
-			ps.setString(3, completeId.getUserId());
+			ps.setInt(2, itemId);
+			ps.setString(3, userId);
 
 			//実行結果の取得
 			int result = ps.executeUpdate();

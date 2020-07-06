@@ -1,6 +1,5 @@
 package model;
 
-import beans.ID;
 import beans.Item;
 import dao.ItemsDAO;
 
@@ -10,13 +9,15 @@ import dao.ItemsDAO;
 public class DetailItemLogic {
 
 	/**
-	 * ToDoの詳細を取得するメソッド
-	 * @param detailId		詳細を取得するToDoのID
-	 * @return		ToDoの詳細
+	 * itemIdのToDoがログインしているユーザーのものであれば、詳細を取得するメソッド
+	 *
+	 * @param itemId		詳細を取得するToDoのID
+	 * @param userId		ログインしているユーザーのID
+	 * @return				ToDoの詳細
 	 */
-	public static Item execute(ID detailId) {
+	public static Item execute(int itemId, String userId) {
 
-		return ItemsDAO.searchItemByItemId(detailId);
+		return ItemsDAO.searchItemByItemId(itemId, userId);
 	}
 
 }

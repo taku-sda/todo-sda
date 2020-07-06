@@ -1,6 +1,5 @@
 package model;
 
-import beans.ID;
 import dao.ItemsDAO;
 
 /**
@@ -9,14 +8,15 @@ import dao.ItemsDAO;
 public class CompleteItemLogic {
 
 	/**
-	 * ToDoを完了させるメソッド
+	 * itemIdのToDoがログインしているユーザーのものであれば、完了状態にするメソッド
 	 *
-	 * @param completeId		完了させるToDoのID
+	 * @param itemId		完了させるToDoのID
+	 * @param userId		ログインしているユーザーのID
 	 * @return		完了処理に成功したらtrue
 	 */
-	public static boolean execute(ID completeId) {
+	public static boolean execute(int itemId, String userId) {
 
-		return ItemsDAO.completeItem(completeId);
+		return ItemsDAO.completeItem(itemId, userId);
 	}
 
 }

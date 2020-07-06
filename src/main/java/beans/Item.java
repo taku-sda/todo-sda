@@ -6,7 +6,13 @@ import java.time.LocalDateTime;
 /**
  * ToDoの各種情報を保持するクラス
  */
-public class Item extends ID implements Serializable{
+public class Item implements Serializable{
+
+	/**ToDoごとに固有のID*/
+	protected int itemId;
+
+	/**ToDoを作成したユーザーのID*/
+	protected String userId;
 
 	/**ToDoのタイトル*/
 	private String title;
@@ -28,10 +34,10 @@ public class Item extends ID implements Serializable{
 	/**
 	 * ToDoの追加に必要な情報を設定するためのコンストラクタ
 	 *
-	 * @param userId	ToDoを作成したユーザーのID
-	 * @param title		ToDoのタイトル
-	 * @param memo		ToDoについてのメモ
-	 * @param deadLine	ToDoの期限
+	 * @param userId		ToDoを作成したユーザーのID
+	 * @param title			ToDoのタイトル
+	 * @param memo			ToDoについてのメモ
+	 * @param deadLine		ToDoの期限
 	 * @param importance	ToDoの重要度
 	 */
 	public Item(String userId, String title, String memo, LocalDateTime deadLine, int importance) {
@@ -45,10 +51,10 @@ public class Item extends ID implements Serializable{
 	/**
 	 * ToDoの更新に必要な情報を設定するためのコンストラクタ
 	 *
-	 * @param itemId	ToDoごとに固有のID
-	 * @param title		ToDoのタイトル
-	 * @param memo		ToDoについてのメモ
-	 * @param deadLine	ToDoの期限
+	 * @param itemId		ToDoごとに固有のID
+	 * @param title			ToDoのタイトル
+	 * @param memo			ToDoについてのメモ
+	 * @param deadLine		ToDoの期限
 	 * @param completed		ToDoの完了状態
 	 * @param importance	ToDoの重要度
 	 */
@@ -64,11 +70,11 @@ public class Item extends ID implements Serializable{
 	/**
 	 * ToDoをホーム画面に表示するために必要な情報を設定するためのコンストラクタ
 	 *
-	 * @param itemId
-	 * @param title
-	 * @param deadLine
-	 * @param completed
-	 * @param importance
+	 * @param itemId		ToDoごとに固有のID
+	 * @param title			ToDoのタイトル
+	 * @param deadLine		ToDoの期限
+	 * @param completed		ToDoの完了状態
+	 * @param importance	ToDoの重要度
 	 */
 	public Item(int itemId, String title, LocalDateTime deadLine, boolean completed, int importance) {
 		this.itemId = itemId;
@@ -80,6 +86,22 @@ public class Item extends ID implements Serializable{
 
 
 	//以下、getter及びsetter
+	public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	public String getTitle() {
 		return title;
 	}

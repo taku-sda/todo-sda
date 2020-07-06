@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.ID;
 import beans.Item;
 import model.DetailItemLogic;
 
@@ -35,12 +34,9 @@ public class DetailItem extends HttpServlet {
 		} else {
 			//ログインしている場合の処理
 
-			//詳細を取得するToDoのIDを設定
-			int itemId = Integer.parseInt(request.getParameter("itemId"));
-			ID detailId = new ID(itemId, userId);
-
 			//ToDoの詳細を取得
-			Item detailItem = DetailItemLogic.execute(detailId);
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
+			Item detailItem = DetailItemLogic.execute(itemId, userId);
 
 			if (detailItem != null) {
 				//取得できた場合は、詳細をパラメータに設定して、詳細画面にフォワード
