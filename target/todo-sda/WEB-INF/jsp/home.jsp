@@ -1,223 +1,259 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="include/common.jsp" %>
+	pageEncoding="UTF-8"%>
+<%@ include file="include/common.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="UTF-8">
+<!-- viewport meta -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-	<title>ToDo!!｜ホーム</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<title>ToDo!!｜ホーム</title>
 </head>
 <body>
 	<%--ログイン後ナビバー --%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	 <a class="navbar-brand" href="/Home">ToDo!!</a>
-	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-     </button>
-     <div class="collapse navbar-collapse" id="Navbar">
-      <ul class="navbar-nav mr-auto">
-       <li class="nav-item">
-        <a class="nav-link text-light" href="/HowToUse" >使い方</a>
-       </li>
-       <li class="nav-item">
-        <a class="nav-link text-light" href="/AddItem" >ToDoの追加</a>
-       </li>
-      </ul>
-      <ul class="navbar-nav">
-       <li class="nav-item">
-         <a class="nav-link text-light" href="/Logout">ログアウト</a>
-       </li>
-      </ul>
-     </div>
+		<a class="navbar-brand" href="/Home">ToDo!!</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="Navbar">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link text-light"
+					href="/HowToUse">使い方</a></li>
+				<li class="nav-item"><a class="nav-link text-light"
+					href="/AddItem">ToDoの追加</a></li>
+			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link text-light"
+					href="/Logout">ログアウト</a></li>
+			</ul>
+		</div>
 	</nav>
 
-	<%--サイトタイトル --%>
-	<div class="container">
-	<div class="janbotron bg-info mt-1">
-	  <h1 class="display-3 mb-4 pt-4 pb-4 text-center">ToDo!!<small>～やること管理サイト～</small></h1>
-	</div>
-	</div>
-
-	<div class="container">
-	 <h4 class="my-3">ようこそ<c:out value="${userId}"/>さん！ <%= Helper.getNow() %></h4>
-
-	 <c:if test="${empty completedList && empty expiredList && empty todayList && empty otherList}">
-	 <h5>登録されているToDoがありません。<a href="/AddItem">ToDoの追加</a>をしてみましょう。</h5>
-	 </c:if>
+	<%--ユーザー情報、日時表示 --%>
+	<div class="container mt-3">
+		<h6>
+			ようこそ
+			<c:out value="${userId}" />
+			さん！<%=JSPHelper.getLogout()%></h6>
+		<h4><%=JSPHelper.getNow()%></h4>
 	</div>
 
+	<%--ページメイン --%>
+	<%--今日までのToDoの表示 --%>
+	<div class="container mt-5">
+		<%--ToDoが存在する場合のみ表示する --%>
+		<c:if test="${not empty todayList}">
+			<h3 class="bg-warning w-50">
+				<div class="p-1">今日まで!!</div>
+			</h3>
+			<div class="janbotron bg-light">
+				<%--一覧をテーブルで表示 --%>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>タイトル</th>
+							<th>期限</th>
+							<th>重要度</th>
+							<th></th>
+							<%--完了ボタン用の見出し --%>
+						</tr>
+					</thead>
+					<tbody>
+						<%--ToDoの数だけ繰り返す --%>
+						<c:forEach var="i" begin="0" end="${todayList.size() -1}" step="1">
+							<tr>
+								<%--タイトル --%>
+								<td><a
+									href="/DetailItem?itemId=${todayList[i].getItemId()}">${todayList[i].getTitle()}</a>
+								</td>
+								<%--期限 --%>
+								<td>${todayList[i].getHour()}時${todayList[i].getMinute()}分</td>
+								<%--重要度 --%>
+								<td><c:choose>
+										<c:when test="${todayList[i].getImportance() == 3 }">大</c:when>
+										<c:when test="${todayList[i].getImportance() == 2 }">中</c:when>
+										<c:when test="${todayList[i].getImportance() == 1 }">小</c:when>
+									</c:choose></td>
+								<%--完了ボタン --%>
+								<td><a
+									href="/CompleteItem?itemId=${todayList[i].getItemId()}">済</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</c:if>
+
+	</div>
+
+	<%--ToDo一覧の表示 --%>
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-6">
+				<h3 class="bg-primary">
+					<div class="p-1">ToDo一覧</div>
+				</h3>
+			</div>
+			<%--ToDoの追加ボタン --%>
+			<div class="col-6">
+				<a href="/AddItem" class="btn btn-secondary float-right">ToDoの追加</a>
+			</div>
+		</div>
+
+		<div class="janbotron bg-light">
+			<c:choose>
+				<%--ToDoが存在しない場合は、案内文を表示 --%>
+				<c:when test="${empty otherList}">
+					<h3 class="text-center p-2">
+						登録されているToDoがありません<br> ToDoの追加をしてみましょう
+					</h3>
+				</c:when>
+				<%--ToDoが存在する場合は、一覧をテーブルで表示 --%>
+				<c:otherwise>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>タイトル</th>
+								<th>期限</th>
+								<th>重要度</th>
+								<th></th>
+								<%--完了ボタン用の見出し --%>
+							</tr>
+						</thead>
+						<tbody>
+							<%--ToDoの数だけ繰り返す --%>
+							<c:forEach var="i" begin="0" end="${otherList.size() -1}"
+								step="1">
+								<tr>
+									<%--タイトル --%>
+									<td><a
+										href="/DetailItem?itemId=${otherList[i].getItemId()}">${otherList[i].getTitle()}</a>
+									</td>
+									<%--期限 --%>
+									<td>${otherList[i].getYear()}/${otherList[i].getMonth()}/${otherList[i].getDay()}</td>
+									<%--重要度 --%>
+									<td><c:choose>
+											<c:when test="${otherList[i].getImportance() == 3 }">大</c:when>
+											<c:when test="${otherList[i].getImportance() == 2 }">中</c:when>
+											<c:when test="${otherList[i].getImportance() == 1 }">小</c:when>
+										</c:choose></td>
+									<%--完了ボタン --%>
+									<td><a
+										href="/CompleteItem?itemId=${otherList[i].getItemId()}">済</a></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</div>
 
 	<div class="container mt-5">
-	 <h3 class="bg-warning w-75">今日までのToDo</h3>
-	 <div class="janbotron bg-light">
-	  <c:choose>
-	   <c:when test="${empty todayList}">
-	    <h3 class="text-center">今日までのToDoはありません</h3>
-	   </c:when>
-	   <c:otherwise>
-	    <table class="table">
-	     <thead>
-	      <tr>
-	       <th>タイトル</th>
-	       <th>期限</th>
-	       <th>重要度</th>
-	      </tr>
-		 </thead>
-	     <tbody>
-	      <c:forEach var="i" begin="0" end="${todayList.size() -1}" step="1">
-	       <tr>
-	        <td>
-	         <form method="post" name="todayForm" action="/DetailItem">
-			 <input type="hidden" name="itemId" value="${todayList[i].getItemId()}">
-			 <c:choose>
-			  <c:when test="${todayList.size() == 1}">
-			   <a href="javascript:todayForm.submit()"><strong>${todayList[i].getTitle()}</strong></a>
-			  </c:when>
-			  <c:otherwise>
-	           <a href="javascript:todayForm[${i}].submit()"><strong>${todayList[i].getTitle()}</strong></a>
-			  </c:otherwise>
-			 </c:choose>
-			 </form>
-	        </td>
-	        <td>${todayList[i].getHour()}時${todayList[i].getMinute()}分まで</td>
-	        <td>
-	         <c:choose>
-	          <c:when test="${todayList[i].getImportance() == 3 }">大</c:when>
-	          <c:when test="${todayList[i].getImportance() == 2 }">中</c:when>
-	          <c:when test="${todayList[i].getImportance() == 1 }">小</c:when>
-	         </c:choose>
-	        </td>
-	       </tr>
-	      </c:forEach>
-	     </tbody>
-	    </table>
-	   </c:otherwise>
-	  </c:choose>
-	 </div>
+		<div class="row">
+			<%--完了のToDoの表示 --%>
+			<div class="col-sm-6">
+				<%--ToDoが存在する場合のみ表示 --%>
+				<c:if test="${not empty completedList}">
+					<div class="row">
+						<div class="col-6">
+							<h3 class="bg-success">
+								<div class="p-1">完了</div>
+							</h3>
+						</div>
+						<%--一括削除ボタン --%>
+						<div class="col-6">
+							<a href="/DeleteAllCompletedItem"
+								class="btn btn-secondary float-right">一括削除</a>
+						</div>
+					</div>
+
+					<div class="janbotron bg-light">
+						<%--一覧をテーブルで表示 --%>
+						<table class="table">
+							<tbody>
+								<%--ToDoの数だけ繰り返す --%>
+								<c:forEach var="i" begin="0" end="${completedList.size() -1}"
+									step="1">
+									<tr>
+										<%--タイトル --%>
+										<td><a
+											href="/DetailItem?itemId=${completedList[i].getItemId()}">${completedList[i].getTitle()}</a></td>
+										<%--削除ボタン --%>
+										<td><a
+											href="DeleteItem?itemId=${completedList[i].getItemId()}">削除</a></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</c:if>
+			</div>
+
+			<%--隙間を開けるための空のcol --%>
+			<div class="col-sm-1"></div>
+
+			<div class="col-sm-5">
+				<%--ToDoが存在する場合のみ表示 --%>
+				<c:if test="${not empty expiredList}">
+					<div class="row">
+						<div class="col-6">
+							<h3 class="bg-danger">
+								<div class="p-1">期限切れ</div>
+							</h3>
+						</div>
+						<%--一括削除ボタン --%>
+						<div class="col-6">
+							<a href="/DeleteAllExpiredItem"
+								class="btn btn-secondary float-right">一括削除</a>
+						</div>
+					</div>
+
+					<div class="janbotron bg-light">
+						<%--一覧をテーブルで表示 --%>
+						<table class="table">
+							<tbody>
+								<%--ToDoの数だけ繰り返す --%>
+								<c:forEach var="i" begin="0" end="${expiredList.size() -1}"
+									step="1">
+									<tr>
+										<%--タイトル --%>
+										<td><a
+											href="/DetailItem?itemId=${expiredList[i].getItemId()}">${expiredList[i].getTitle()}</a></td>
+										<%--削除ボタン --%>
+										<td><a
+											href="DeleteItem?itemId=${expiredList[i].getItemId()}">削除</a></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</c:if>
+			</div>
+		</div>
 	</div>
 
-	<div class="container mt-5">
-	 <h3 class="bg-primary w-75">ToDo一覧</h3>
-	 <div class="janbotron bg-light">
-	  <c:choose>
-	   <c:when test="${empty otherList}">
-	    <h3 class="text-center">ToDoはありません</h3>
-	   </c:when>
-	   <c:otherwise>
-	    <table class="table">
-	     <thead>
-	      <tr>
-	       <th>タイトル</th>
-	       <th>期限</th>
-	       <th>重要度</th>
-	      </tr>
-		 </thead>
-	     <tbody>
-	      <c:forEach var="i" begin="0" end="${otherList.size() -1}" step="1">
-	       <tr>
-	        <td>
-	         <form method="post" name="otherForm" action="/DetailItem">
-			 <input type="hidden" name="itemId" value="${otherList[i].getItemId()}">
-			 <c:choose>
-			  <c:when test="${otherList.size() == 1}">
-			   <a href="javascript:otherForm.submit()"><strong>${otherList[i].getTitle()}</strong></a>
-			  </c:when>
-			  <c:otherwise>
-	           <a href="javascript:otherForm[${i}].submit()"><strong>${otherList[i].getTitle()}</strong></a>
-			  </c:otherwise>
-			 </c:choose>
-			 </form>
-	        </td>
-	        <td>${otherList[i].getYear()}年${otherList[i].getMonth()}月${otherList[i].getDay()}日まで</td>
-	        <td>
-	         <c:choose>
-	          <c:when test="${otherList[i].getImportance() == 3 }">大</c:when>
-	          <c:when test="${otherList[i].getImportance() == 2 }">中</c:when>
-	          <c:when test="${otherList[i].getImportance() == 1 }">小</c:when>
-	         </c:choose>
-	        </td>
-	       </tr>
-	      </c:forEach>
-	     </tbody>
-	    </table>
-	   </c:otherwise>
-	  </c:choose>
-	 </div>
-	</div>
-
-	<div class="container mt-5">
-	 <div class="row">
-	  <div class="col-sm-6">
-	   <h3 class="bg-success w-75">完了</h3>
-	   <div class="janbotron bg-light">
-	   <c:choose>
-	    <c:when test="${empty completedList}">
-	     <h3 class="text-center">ToDoはありません</h3>
-	    </c:when>
-	    <c:otherwise>
-	     <ul class="py-3">
-	      <c:forEach var="i" begin="0" end="${completedList.size() -1}" step="1">
-	       <form method="post" name="completedForm" action="/DetailItem">
-	       <input type="hidden" name="itemId" value="${completedList[i].getItemId()}">
-	       <c:choose>
-	        <c:when test="${completedList.size() == 1}">
-	         <li class="mb-2"><a href="javascript:completedForm.submit()">${completedList[i].getTitle()}</a></li>
-	        </c:when>
-	        <c:otherwise>
-	         <li class="mb-2"><a href="javascript:completedForm[${i}].submit()">${completedList[i].getTitle()}</a></li>
-	        </c:otherwise>
-	       </c:choose>
-	       </form>
-	     </c:forEach>
-	     </ul>
-	     <a href="/DeleteAllCompletedItem" class="btn btn-secondary mx-2 mb-2">一括削除</a>
-	    </c:otherwise>
-	   </c:choose>
-	   </div>
-	  </div>
-	  <div class="col-sm-1">
-	  	<%--隙間を開けるための空のcol --%>
-	  </div>
-	  <div class="col-sm-5">
-	   <h3 class="bg-danger w-75">期限切れ</h3>
-	   <div class="janbotron bg-light">
-	   <c:choose>
-	    <c:when test="${empty expiredList}">
-	     <h3 class="text-center">ToDoはありません</h3>
-	    </c:when>
-	    <c:otherwise>
-	     <ul class="py-3">
-	      <c:forEach var="i" begin="0" end="${expiredList.size() -1}" step="1">
-	       <form method="post" name="expiredForm" action="/DetailItem">
-	       <input type="hidden" name="itemId" value="${expiredList[i].getItemId()}">
-	       <c:choose>
-	         <c:when test="${expiredList.size() == 1}">
-	          <li class="mb-2"><a href="javascript:expiredForm.submit()">${expiredList[i].getTitle()}</a></li>
-	         </c:when>
-	         <c:otherwise>
-	           <li class="mb-2"><a href="javascript:expiredForm[${i}].submit()">${expiredList[i].getTitle()}</a></li>
-	         </c:otherwise>
-	       </c:choose>
-	       </form>
-	      </c:forEach>
-	     </ul>
-	     <a href="/DeleteAllExpiredItem" class="btn btn-secondary mx-2 mb-2">一括削除</a>
-	    </c:otherwise>
-	   </c:choose>
-	   </div>
-	  </div>
-	 </div>
-	</div>
-
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- jQuery、Popper.js、Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
 </body>
 </html>

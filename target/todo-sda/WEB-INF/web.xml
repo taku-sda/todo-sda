@@ -10,8 +10,18 @@
   	<description></description>
   	<servlet-class>servlet.DeleteAllCompletedItem</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>CompleteItem</servlet-name>
+  	<display-name>CompleteItem</display-name>
+  	<description></description>
+  	<servlet-class>servlet.CompleteItem</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>DeleteAllCompletedItem</servlet-name>
   	<url-pattern>/DeleteAllCompletedItem</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CompleteItem</servlet-name>
+  	<url-pattern>/CompleteItem</url-pattern>
   </servlet-mapping>
 </web-app>
