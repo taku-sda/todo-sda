@@ -8,13 +8,14 @@ import dao.ItemsDAO;
 public class DeleteAllExpiredItemLogic {
 
 	/**
-	 * 全ての期限切れのToDoを削除するメソッド
+	 * ログインユーザーの全ての期限切れのToDoを削除するメソッド
 	 *
-	 * @return		削除に成功したらtrue
+	 * @param userId 	ログインユーザーのID
+	 * @return			削除に成功したらtrue
 	 */
-	public static boolean execute() {
+	public static boolean execute(String userId) {
 
-		return ItemsDAO.deleteAllExpiredItem();
+		return ItemsDAO.deleteAllExpiredItem(userId);
 	}
 
 }

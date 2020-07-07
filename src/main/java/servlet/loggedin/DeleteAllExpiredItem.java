@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.DeleteAllExpiredItemLogic;
 
@@ -25,8 +26,11 @@ public class DeleteAllExpiredItem extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+			HttpSession session = request.getSession();
+			String userId = (String) session.getAttribute("userId");
+
 			//全ての期限切れのToDoを削除
-			boolean result = DeleteAllExpiredItemLogic.execute();
+			boolean result = DeleteAllExpiredItemLogic.execute(userId);
 
 			if (result) {
 				//ToDoの削除処理に成功した場合はホーム画面にリダイレクト

@@ -248,19 +248,21 @@ public class ItemsDAO extends DAOParent{
 
 
 	/**
-	 * 期限が現在よりも前のToDoをすべて削除するメソッド
+	 * USERIDの期限が現在よりも前のToDoをすべて削除するメソッド
 	 *
-	 * @return		削除が実行されたらtrue
+	 * @param userId	USERID
+	 * @return			削除が実行されたらtrue
 	 */
-	public static boolean deleteAllExpiredItem() {
+	public static boolean deleteAllExpiredItem(String userId) {
 
 		try (Connection con = DAOParent.createConnection()) {
 
 			//SQLの実行
-			String sql = "DELETE FROM ITEMS WHERE DEADLINE < TO_TIMESTAMP(?, ?) AND COMPLETED = FALSE";
+			String sql = "DELETE FROM ITEMS WHERE USERID = ? AND DEADLINE < TO_TIMESTAMP(?, ?) AND COMPLETED = FALSE";
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, toTimestampStr(LocalDateTime.now()));
-			ps.setString(2, "'YYYY/MM/DD HH24:MI:SS'");
+			ps.setString(1, userId);
+			ps.setString(2, toTimestampStr(LocalDateTime.now()));
+			ps.setString(3, "'YYYY/MM/DD HH24:MI:SS'");
 
 			//実行結果の取得
 			int result = ps.executeUpdate();
@@ -280,18 +282,20 @@ public class ItemsDAO extends DAOParent{
 
 
 	/**
-	 * 完了状態のToDoをすべて削除するメソッド
+	 * USERIDの完了状態のToDoをすべて削除するメソッド
 	 *
-	 * @return		削除が実行されたらtrue
+	 *@param userId 	USERID
+	 * @return			削除が実行されたらtrue
 	 */
-	public static boolean deleteAllCompletedItem() {
+	public static boolean deleteAllCompletedItem(String userId) {
 
 		try (Connection con = DAOParent.createConnection()) {
 
 			//SQLの実行
-			String sql = "DELETE FROM ITEMS WHERE COMPLETED = ?";
+			String sql = "DELETE FROM ITEMS WHERE USERID = ? AND COMPLETED = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setBoolean(1, true);
+			ps.setString(1, userId);
+			ps.setBoolean(2, true);
 
 			//実行結果の取得
 			int result = ps.executeUpdate();

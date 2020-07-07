@@ -8,13 +8,14 @@ import dao.ItemsDAO;
 public class DeleteAllCompletedItemLogic {
 
 	/**
-	 * 全ての完了状態のToDoを削除するメソッド
+	 * ログインユーザーの全ての完了状態のToDoを削除するメソッド
 	 *
+	 *@param userId		ログインユーザーのID
 	 * @return		削除に成功したらtrue
 	 */
-	public static boolean execute() {
+	public static boolean execute(String userId) {
 
-		return ItemsDAO.deleteAllCompletedItem();
+		return ItemsDAO.deleteAllCompletedItem(userId);
 	}
 
 }
