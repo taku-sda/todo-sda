@@ -51,7 +51,7 @@
 			パスワード：
 			<c:out value="${pass}" />
 		</div>
-		<a class="btn btn-primary mb-4" href="/Home">ToDo!!ホーム画面へ</a>
+		<a class="btn btn-primary mb-4" href="/LoggedIn/Home">ToDo!!ホーム画面へ</a>
 	</div>
 
 	<!-- jQuery、Popper.js、Bootstrap JS -->

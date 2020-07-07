@@ -42,7 +42,7 @@
 	<h1 class="mb-5">以下の内容でユーザー登録しました</h1>
 	<div class="mb-3">ユーザーID： <c:out value="${userId}" /></div>
 	<div class="mb-5">パスワード： <c:out value="${pass}" /></div>
-	<a class="btn btn-primary mb-4" href="/Home">ToDo!!ホーム画面へ</a>
+	<a class="btn btn-primary mb-4" href="/LoggedIn/Home">ToDo!!ホーム画面へ</a>
 	</div>
 
 	<!-- Optional JavaScript -->

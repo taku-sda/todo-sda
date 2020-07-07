@@ -1,4 +1,4 @@
-package servlet;
+package servlet.loggedin;
 
 import java.io.IOException;
 
@@ -16,23 +16,15 @@ import model.DeleteItemLogic;
  *
  * ToDoの個別削除に関するサーブレットクラス
  */
-@WebServlet("/DeleteItem")
+@WebServlet("/LoggedIn/DeleteItem")
 public class DeleteItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//セッションスコープからユーザーIDを取得
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userId");
-
-		if (userId == null) {
-			//ログインしていない場合はトップ画面にリダイレクト
-			response.sendRedirect("/");
-		} else {
-			//ログインしている場合の処理
-
+			HttpSession session = request.getSession();
+			String userId = (String) session.getAttribute("userId");
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
 
 			//ToDoの削除を行う
@@ -40,12 +32,11 @@ public class DeleteItem extends HttpServlet {
 
 			if (result) {
 				//ToDoの削除処理に成功した場合はホーム画面にリダイレクト
-				response.sendRedirect("/Home");
+				response.sendRedirect("/LoggedIn/Home");
 			} else {
 				//失敗した場合はパラメータにエラーメッセージを設定して、エラーページにフォワード
 				request.setAttribute("errMsg", "ToDoの削除処理に失敗しました。");
-				request.getRequestDispatcher("WEB-INF/jsp/itemError.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
 			}
-		}
 	}
 }

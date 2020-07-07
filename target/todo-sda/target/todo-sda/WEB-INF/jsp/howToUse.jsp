@@ -15,22 +15,22 @@
 <body>
 	<%--ログイン後ナビバー --%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	 <a class="navbar-brand" href="/Home">ToDo!!</a>
+	 <a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
 	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
      </button>
      <div class="collapse navbar-collapse" id="Navbar">
       <ul class="navbar-nav mr-auto">
        <li class="nav-item">
-        <a class="nav-link text-light" href="/HowToUse" >使い方</a>
+        <a class="nav-link text-light" href="/LoggedIn/HowToUse" >使い方</a>
        </li>
        <li class="nav-item">
-        <a class="nav-link text-light" href="/AddItem" >ToDoの追加</a>
+        <a class="nav-link text-light" href="/LoggedIn/AddItem" >ToDoの追加</a>
        </li>
       </ul>
       <ul class="navbar-nav">
        <li class="nav-item">
-         <a class="nav-link text-light" href="/Logout">ログアウト</a>
+         <a class="nav-link text-light" href="/LoggedIn/Logout">ログアウト</a>
        </li>
       </ul>
      </div>
@@ -55,7 +55,7 @@
 	<span class="bg-success">完了</span><span class="bg-danger mx-2">期限切れ</span>の4種類で表示されます。</p>
 
 	<h2 class="mt-5 mb-2"><span class="bg-light">ToDoの追加</span></h2>
-	<p>画面上部のメニューバーから<a href="/AddItem" >ToDoの追加</a>を選び、ToDoの追加画面を開きます。<br>
+	<p>画面上部のメニューバーから<a href="/LoggedIn/AddItem" >ToDoの追加</a>を選び、ToDoの追加画面を開きます。<br>
 	タイトル、期限、重要度、メモ（任意）を入力して<button type="button" class="btn btn-primary mx-2">ToDoの追加</button>を選びます。</p>
 
 	<h2 class="mt-5 mb-2"><span class="bg-light">ToDoの詳細</span></h2>

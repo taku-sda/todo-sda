@@ -20,7 +20,7 @@
 <body>
 	<%--ログイン後ナビバー --%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/Home">ToDo!!</a>
+		<a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
 			aria-label="Toggle navigation">
@@ -29,13 +29,13 @@
 		<div class="collapse navbar-collapse" id="Navbar">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/HowToUse">使い方</a></li>
+					href="/LoggedIn/HowToUse">使い方</a></li>
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/AddItem">ToDoの追加</a></li>
+					href="/LoggedIn/AddItem">ToDoの追加</a></li>
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/Logout">ログアウト</a></li>
+					href="/LoggedIn/Logout">ログアウト</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -60,7 +60,7 @@
 
 		<div class="bg-light p-2">
 			<%--ToDoの追加フォーム --%>
-			<form action="/AddItem" method="post">
+			<form action="/LoggedIn/AddItem" method="post">
 
 				<%--タイトル --%>
 				<div class="form-group w-75">

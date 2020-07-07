@@ -15,22 +15,22 @@
 <body>
 	<%--ログイン後ナビバー --%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	 <a class="navbar-brand" href="/Home">ToDo!!</a>
+	 <a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
 	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
      </button>
      <div class="collapse navbar-collapse" id="Navbar">
       <ul class="navbar-nav mr-auto">
        <li class="nav-item">
-        <a class="nav-link text-light" href="/HowToUse" >使い方</a>
+        <a class="nav-link text-light" href="/LoggedIn/HowToUse" >使い方</a>
        </li>
        <li class="nav-item">
-        <a class="nav-link text-light" href="/AddItem" >ToDoの追加</a>
+        <a class="nav-link text-light" href="/LoggedIn/AddItem" >ToDoの追加</a>
        </li>
       </ul>
       <ul class="navbar-nav">
        <li class="nav-item">
-         <a class="nav-link text-light" href="/Logout">ログアウト</a>
+         <a class="nav-link text-light" href="/LoggedIn/Logout">ログアウト</a>
        </li>
       </ul>
      </div>
@@ -47,7 +47,7 @@
 	 <h4 class="my-3">ようこそ<c:out value="${userId}"/>さん！ <%= Helper.getNow() %></h4>
 
 	 <c:if test="${empty completedList && empty expiredList && empty todayList && empty otherList}">
-	 <h5>登録されているToDoがありません。<a href="/AddItem">ToDoの追加</a>をしてみましょう。</h5>
+	 <h5>登録されているToDoがありません。<a href="/LoggedIn/AddItem">ToDoの追加</a>をしてみましょう。</h5>
 	 </c:if>
 	</div>
 
@@ -72,7 +72,7 @@
 	      <c:forEach var="i" begin="0" end="${todayList.size() -1}" step="1">
 	       <tr>
 	        <td>
-	         <form method="post" name="todayForm" action="/DetailItem">
+	         <form method="post" name="todayForm" action="/LoggedIn/DetailItem">
 			 <input type="hidden" name="itemId" value="${todayList[i].getItemId()}">
 			 <c:choose>
 			  <c:when test="${todayList.size() == 1}">
@@ -121,7 +121,7 @@
 	      <c:forEach var="i" begin="0" end="${otherList.size() -1}" step="1">
 	       <tr>
 	        <td>
-	         <form method="post" name="otherForm" action="/DetailItem">
+	         <form method="post" name="otherForm" action="/LoggedIn/DetailItem">
 			 <input type="hidden" name="itemId" value="${otherList[i].getItemId()}">
 			 <c:choose>
 			  <c:when test="${otherList.size() == 1}">
@@ -162,7 +162,7 @@
 	    <c:otherwise>
 	     <ul class="py-3">
 	      <c:forEach var="i" begin="0" end="${completedList.size() -1}" step="1">
-	       <form method="post" name="completedForm" action="/DetailItem">
+	       <form method="post" name="completedForm" action="/LoggedIn/DetailItem">
 	       <input type="hidden" name="itemId" value="${completedList[i].getItemId()}">
 	       <c:choose>
 	        <c:when test="${completedList.size() == 1}">
@@ -175,7 +175,7 @@
 	       </form>
 	     </c:forEach>
 	     </ul>
-	     <a href="/DeleteAllCompletedItem" class="btn btn-secondary mx-2 mb-2">一括削除</a>
+	     <a href="/LoggedIn/DeleteAllCompletedItem" class="btn btn-secondary mx-2 mb-2">一括削除</a>
 	    </c:otherwise>
 	   </c:choose>
 	   </div>
@@ -193,7 +193,7 @@
 	    <c:otherwise>
 	     <ul class="py-3">
 	      <c:forEach var="i" begin="0" end="${expiredList.size() -1}" step="1">
-	       <form method="post" name="expiredForm" action="/DetailItem">
+	       <form method="post" name="expiredForm" action="/LoggedIn/DetailItem">
 	       <input type="hidden" name="itemId" value="${expiredList[i].getItemId()}">
 	       <c:choose>
 	         <c:when test="${expiredList.size() == 1}">
@@ -206,7 +206,7 @@
 	       </form>
 	      </c:forEach>
 	     </ul>
-	     <a href="/DeleteAllExpiredItem" class="btn btn-secondary mx-2 mb-2">一括削除</a>
+	     <a href="/LoggedIn/DeleteAllExpiredItem" class="btn btn-secondary mx-2 mb-2">一括削除</a>
 	    </c:otherwise>
 	   </c:choose>
 	   </div>

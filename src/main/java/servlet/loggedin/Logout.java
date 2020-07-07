@@ -1,4 +1,4 @@
-package servlet;
+package servlet.loggedin;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * ログアウトに関するサーブレットクラス
  */
-@WebServlet("/Logout")
+@WebServlet("/LoggedIn/Logout")
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

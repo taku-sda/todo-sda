@@ -1,4 +1,4 @@
-package servlet;
+package servlet.loggedin;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,7 @@ import model.HomeLogic;
  *
  * ホーム画面に関するサーブレットクラス
  */
-@WebServlet("/Home")
+@WebServlet("/LoggedIn/Home")
 public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -28,15 +28,8 @@ public class Home extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//セッションスコープからユーザーIDを取得
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userId");
-
-		if (userId == null) {
-			//ログインしていない場合はトップ画面にリダイレクト
-			response.sendRedirect("/");
-		} else {
-			//ログインしている場合の処理
+			HttpSession session = request.getSession();
+			String userId = (String) session.getAttribute("userId");
 
 			//ToDoの一覧を取得
 			List<Item> itemList = HomeLogic.exectute(userId);
@@ -58,8 +51,7 @@ public class Home extends HttpServlet {
 			request.setAttribute("otherList", otherList);
 
 			//ホーム画面にフォワード
-			request.getRequestDispatcher("WEB-INF/jsp/home.jsp").forward(request, response);
-		}
+			request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 	}
 
 }

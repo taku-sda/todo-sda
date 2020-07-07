@@ -1,4 +1,4 @@
-package servlet;
+package servlet.loggedin;
 
 import java.io.IOException;
 
@@ -17,37 +17,29 @@ import model.DetailItemLogic;
  *
  * ToDoの詳細画面に関するサーブレットクラス
  */
-@WebServlet("/DetailItem")
+@WebServlet("/LoggedIn/DetailItem")
 public class DetailItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//セッションスコープからユーザーIDを取得
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userId");
-
-		if (userId == null) {
-			//ログインしていない場合はトップ画面にリダイレクト
-			response.sendRedirect("/");
-		} else {
-			//ログインしている場合の処理
+			HttpSession session = request.getSession();
+			String userId = (String) session.getAttribute("userId");
+			int itemId = Integer.parseInt(request.getParameter("itemId"));
 
 			//ToDoの詳細を取得
-			int itemId = Integer.parseInt(request.getParameter("itemId"));
 			Item detailItem = DetailItemLogic.execute(itemId, userId);
 
 			if (detailItem != null) {
 				//取得できた場合は、詳細をパラメータに設定して、詳細画面にフォワード
 				request.setAttribute("detailItem", detailItem);
-				request.getRequestDispatcher("WEB-INF/jsp/detailItem.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/jsp/detailItem.jsp").forward(request, response);
 			} else {
 				//取得できなかった場合は、エラーメッセージをパラメータに設定して、エラー画面にフォワード
 				request.setAttribute("errMsg", "ToDoの詳細の取得に失敗しました。");
-				request.getRequestDispatcher("WEB-INF/jsp/itemError.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
 			}
-		}
 	}
 
 }

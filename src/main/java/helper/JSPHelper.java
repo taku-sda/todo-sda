@@ -14,11 +14,11 @@ public class JSPHelper {
 	}
 
 	public static  String getHome() {
-		return "<a href=\"/Home\">ホームへ戻る</a>";
+		return "<a href=\"/LoggedIn/Home\">ホームへ戻る</a>";
 	}
 
 	public static String getLogout() {
-		return "<a href=\"/Logout\">ログアウト</a>";
+		return "<a href=\"/LoggedIn/Logout\">ログアウト</a>";
 	}
 
 	public static String getNow() {

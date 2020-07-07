@@ -65,7 +65,7 @@ public class Login extends HttpServlet {
 		if (result) {
 			//ログイン可能な場合は、セッションスコープのパスワードを破棄してホーム画面へ
 			session.removeAttribute("pass");
-			response.sendRedirect("/Home");
+			response.sendRedirect("/LoggedIn/Home");
 		} else {
 			//ログイン不可な場合は、パラメータにエラー内容を設定して、エラー画面にフォワード
 			request.setAttribute("errMsg", "ユーザーIDまたはパスワードが正しくありません。" + System.lineSeparator() + "入力内容をご確認ください。");

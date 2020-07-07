@@ -18,7 +18,7 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>DeleteAllCompletedItem</servlet-name>
-  	<url-pattern>/DeleteAllCompletedItem</url-pattern>
+  	<url-pattern>/LoggedIn/DeleteAllCompletedItem</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>CompleteItem</servlet-name>

@@ -19,7 +19,7 @@
 <body>
 	<%--ログイン後ナビバー --%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/Home">ToDo!!</a>
+		<a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
 			aria-label="Toggle navigation">
@@ -28,13 +28,13 @@
 		<div class="collapse navbar-collapse" id="Navbar">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/HowToUse">使い方</a></li>
+					href="/LoggedIn/HowToUse">使い方</a></li>
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/AddItem">ToDoの追加</a></li>
+					href="/LoggedIn/AddItem">ToDoの追加</a></li>
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/Logout">ログアウト</a></li>
+					href="/LoggedIn/Logout">ログアウト</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -74,7 +74,7 @@
 							<tr>
 								<%--タイトル --%>
 								<td><a
-									href="/DetailItem?itemId=${todayList[i].getItemId()}">${todayList[i].getTitle()}</a>
+									href="/LoggedIn/DetailItem?itemId=${todayList[i].getItemId()}">${todayList[i].getTitle()}</a>
 								</td>
 								<%--期限 --%>
 								<td>${todayList[i].getHour()}時${todayList[i].getMinute()}分</td>
@@ -86,7 +86,7 @@
 									</c:choose></td>
 								<%--完了ボタン --%>
 								<td><a
-									href="/CompleteItem?itemId=${todayList[i].getItemId()}">済</a></td>
+									href="/LoggedIn/CompleteItem?itemId=${todayList[i].getItemId()}">済</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -106,7 +106,7 @@
 			</div>
 			<%--ToDoの追加ボタン --%>
 			<div class="col-6">
-				<a href="/AddItem" class="btn btn-secondary float-right">ToDoの追加</a>
+				<a href="/LoggedIn/AddItem" class="btn btn-secondary float-right">ToDoの追加</a>
 			</div>
 		</div>
 
@@ -137,7 +137,7 @@
 								<tr>
 									<%--タイトル --%>
 									<td><a
-										href="/DetailItem?itemId=${otherList[i].getItemId()}">${otherList[i].getTitle()}</a>
+										href="/LoggedIn/DetailItem?itemId=${otherList[i].getItemId()}">${otherList[i].getTitle()}</a>
 									</td>
 									<%--期限 --%>
 									<td>${otherList[i].getYear()}/${otherList[i].getMonth()}/${otherList[i].getDay()}</td>
@@ -149,7 +149,7 @@
 										</c:choose></td>
 									<%--完了ボタン --%>
 									<td><a
-										href="/CompleteItem?itemId=${otherList[i].getItemId()}">済</a></td>
+										href="/LoggedIn/CompleteItem?itemId=${otherList[i].getItemId()}">済</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -173,7 +173,7 @@
 						</div>
 						<%--一括削除ボタン --%>
 						<div class="col-6">
-							<a href="/DeleteAllCompletedItem"
+							<a href="/LoggedIn/DeleteAllCompletedItem"
 								class="btn btn-secondary float-right">一括削除</a>
 						</div>
 					</div>
@@ -188,10 +188,10 @@
 									<tr>
 										<%--タイトル --%>
 										<td><a
-											href="/DetailItem?itemId=${completedList[i].getItemId()}">${completedList[i].getTitle()}</a></td>
+											href="/LoggedIn/DetailItem?itemId=${completedList[i].getItemId()}">${completedList[i].getTitle()}</a></td>
 										<%--削除ボタン --%>
 										<td><a
-											href="DeleteItem?itemId=${completedList[i].getItemId()}">削除</a></td>
+											href="/LoggedIn/DeleteItem?itemId=${completedList[i].getItemId()}">削除</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -214,7 +214,7 @@
 						</div>
 						<%--一括削除ボタン --%>
 						<div class="col-6">
-							<a href="/DeleteAllExpiredItem"
+							<a href="/LoggedIn/DeleteAllExpiredItem"
 								class="btn btn-secondary float-right">一括削除</a>
 						</div>
 					</div>
@@ -229,10 +229,10 @@
 									<tr>
 										<%--タイトル --%>
 										<td><a
-											href="/DetailItem?itemId=${expiredList[i].getItemId()}">${expiredList[i].getTitle()}</a></td>
+											href="/LoggedIn/DetailItem?itemId=${expiredList[i].getItemId()}">${expiredList[i].getTitle()}</a></td>
 										<%--削除ボタン --%>
 										<td><a
-											href="DeleteItem?itemId=${expiredList[i].getItemId()}">削除</a></td>
+											href="/LoggedIn/DeleteItem?itemId=${expiredList[i].getItemId()}">削除</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>

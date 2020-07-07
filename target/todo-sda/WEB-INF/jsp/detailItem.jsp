@@ -19,7 +19,7 @@
 <body>
 	<%--ログイン後ナビバー --%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/Home">ToDo!!</a>
+		<a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
 			aria-label="Toggle navigation">
@@ -28,13 +28,13 @@
 		<div class="collapse navbar-collapse" id="Navbar">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/HowToUse">使い方</a></li>
+					href="/LoggedIn/HowToUse">使い方</a></li>
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/AddItem">ToDoの追加</a></li>
+					href="/LoggedIn/AddItem">ToDoの追加</a></li>
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link text-light"
-					href="/Logout">ログアウト</a></li>
+					href="/LoggedIn/Logout">ログアウト</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -59,7 +59,7 @@
 
 		<div class="bg-light p-2">
 			<%--ToDoの詳細フォーム --%>
-			<form action="/UpdateItem" method="post">
+			<form action="/LoggedIn/UpdateItem" method="post">
 
 				<%--タイトル --%>
 				<div class="from-group w-75">
@@ -156,7 +156,7 @@
 				<button type="submit" class="btn btn-primary">ToDoを更新</button>
 
 				<%--削除ボタン --%>
-				<a href="DeleteItem?itemId=${detailItem.getItemId()}"
+				<a href="LoggedIn/DeleteItem?itemId=${detailItem.getItemId()}"
 					class="btn btn-secondary ml-3">ToDoを削除</a>
 			</form>
 

@@ -9,18 +9,21 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet Filter implementation class ServletFilter
- * サーブレットの記述を簡略化するためのフィルター
+ * Servlet Filter implementation class LoggedInFilter
+ * ログイン済みを前提としたサーブレットの処理をまとめたフィルター
  */
-@WebFilter("/*")
-public class ServletFilter implements Filter {
+@WebFilter("/LoggedIn/*")
+public class LoggedInFilter implements Filter {
 
     /**
      * Default constructor.
      */
-    public ServletFilter() {
+    public LoggedInFilter() {
         // TODO Auto-generated constructor stub
     }
 
@@ -36,9 +39,15 @@ public class ServletFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-		request.setCharacterEncoding("UTF-8");
+		HttpSession session = ((HttpServletRequest) request).getSession();
+		String userId = (String) session.getAttribute("userId");
 
-		chain.doFilter(request, response);
+		if (userId == null) {
+			//ログインしていない場合はログイン画面にリダイレクト
+			((HttpServletResponse)response).sendRedirect("/Login");
+		}else {
+			chain.doFilter(request, response);
+		}
 	}
 
 	/**
