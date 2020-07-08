@@ -1,7 +1,9 @@
 package model;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,34 +18,33 @@ import dao.ItemsDAO;
 public class HomeLogic {
 
 	/**
-	 * ユーザーのToDo一覧を取得するメソッド
+	 * ホーム画面の表示用に分類されたToDo一覧を取得するメソッド
 	 *
 	 * @param userId	ユーザーのID
-	 * @return		ToDo一覧のリスト
+	 * @return			分類されたToDo一覧
+	 * @exception SQLException 			データベース処理の例外
+	 * @exception DateTimeParseException 	DateTimeの変換時のエラー
 	 */
-	public static List<Item> exectute(String userId) {
+	public static List<List<Item>> getClassifiedLists(String userId) throws SQLException, DateTimeParseException {
 
-		return ItemsDAO.searchItemByUserId(userId);
-	}
+		//ログインユーザーのToDoの一覧を取得
+		List<Item> itemList = ItemsDAO.getListByUserId(userId);
 
-
-	/**
-	 * ToDO一覧を期限順にソートするメソッド
-	 */
-	public static void sortItem(List<Item> itemList) {
-
+		//期限で昇順ソート
 		Collections.sort(itemList, new DeadLineComparator());
-	}
 
+		//状態ごとに分類したToDo一覧を返す
+		return classifyItem(itemList);
+	}
 
 	/**
 	 * ToDoの一覧を完了、期限切れ、今日まで、その他のToDoに分類するメソッド
 	 *
-	 * @param itemList		分類するToDoのリスト
-	 * @return		分類されたリスト
-	 * 				要素番号の0:完了 1:期限切れ 2:今日まで 3:その他のToDo
+	 * @param itemList	分類するToDoのリスト
+	 * @return			分類されたリスト
+	 * 					要素番号の0:完了 1:期限切れ 2:今日まで 3:その他のToDo
 	 */
-	public static List<List<Item>> classificationItem(List<Item> itemList) {
+	private static List<List<Item>> classifyItem(List<Item> itemList) {
 
 		List<List<Item>> resultList = new ArrayList<>();
 		List<Item> completedList = new ArrayList<>();

@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.User;
+import dao.UsersDAO;
 import model.FormCheckLogic;
-import model.LoginLogic;
 
 /**
  * Servlet implementation class Login
- *
  * ログインに関するサーブレットクラス
  */
 @WebServlet("/Login")
@@ -29,7 +28,7 @@ public class Login extends HttpServlet {
 			throws ServletException, IOException {
 
 		//ログイン画面にフォワード
-		request.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
 	}
 
 	/**
@@ -38,40 +37,35 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//入力内容からUserインスタンスを生成
 		String userId = request.getParameter("userId");
 		String pass = request.getParameter("pass");
-		User loginUser = new User(userId, pass);
 
-		//入力内容をセッションスコープに保存
+		//フォームに入力された内容ををセッションスコープに保存
 		HttpSession session = request.getSession();
 		session.setAttribute("userId", userId);
 		session.setAttribute("pass", pass);
 
-		//入力内容のチェック
-		String errMsg = FormCheckLogic.registerCheck(loginUser);
+		User loginUser = new User(userId, pass);
 
-		//入力内容に誤りがあった場合の処理
-		if (errMsg.length() != 0) {
+		try {
+			//入力内容のチェック
+			FormCheckLogic.check(loginUser);
+
+			//ログイン可能かチェック
+			UsersDAO.login(loginUser);
+
+		} catch (Exception e) {
+			e.printStackTrace();
 			//パラメータにエラー内容を設定して、エラー画面にフォワード
-			request.setAttribute("errMsg", errMsg);
+			request.setAttribute("errMsg", e.getMessage());
 			request.setAttribute("errType", "login");
-			request.getRequestDispatcher("WEB-INF/jsp/userError.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/jsp/userError.jsp").forward(request, response);
 		}
 
-		//ログイン可能か、確認を行う
-		boolean result = LoginLogic.execute(loginUser);
+		//セッションスコープのパスワードを破棄してホーム画面へ
+		session.removeAttribute("pass");
+		response.sendRedirect("/LoggedIn/Home");
 
-		if (result) {
-			//ログイン可能な場合は、セッションスコープのパスワードを破棄してホーム画面へ
-			session.removeAttribute("pass");
-			response.sendRedirect("/LoggedIn/Home");
-		} else {
-			//ログイン不可な場合は、パラメータにエラー内容を設定して、エラー画面にフォワード
-			request.setAttribute("errMsg", "ユーザーIDまたはパスワードが正しくありません。" + System.lineSeparator() + "入力内容をご確認ください。");
-			request.setAttribute("errType", "login");
-			request.getRequestDispatcher("WEB-INF/jsp/userError.jsp").forward(request, response);
-		}
 	}
 
 }

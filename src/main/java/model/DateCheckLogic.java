@@ -13,7 +13,7 @@ public class DateCheckLogic {
 	 * @param day		日
 	 * @return		存在するならtrue
 	 */
-	public static boolean dateCheck(int year, int month, int day) {
+	public static boolean existCheck(int year, int month, int day) {
 
 		//日が28以下の場合は全てOK
 		if(day <= 28) {return true;}
@@ -22,7 +22,7 @@ public class DateCheckLogic {
 		switch(month) {
 
 			case 2 :
-				//2月のはうるう年かつ29日ならOK
+				//2月はうるう年かつ29日ならOK
 				if(year % 4 == 0 && day == 29) {
 					isAvailable = true;
 				}

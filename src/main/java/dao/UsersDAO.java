@@ -8,17 +8,18 @@ import java.sql.SQLException;
 import beans.User;
 
 /**
- * USERテーブルに関する操作を行うDAOクラス
+ * USERSテーブルに関する操作を行うDAOクラス
  */
 public class UsersDAO extends DAOParent {
 
 	/**
 	 *	ユーザー情報を登録するメソッド
 	 *
-	 * @param registerUser	登録するユーザー情報
-	 * @return		登録に成功した場合はtrue
+	 * @param registerUser		登録するユーザー情報
+	 * @exception Exception 	登録処理が完了しない場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static boolean register(User registerUser) {
+	public static void register(User registerUser) throws Exception, SQLException {
 
 		try (Connection con = DAOParent.createConnection()) {
 
@@ -35,28 +36,23 @@ public class UsersDAO extends DAOParent {
 				ps.setString(2, registerUser.getPass());
 				int result = ps.executeUpdate();
 
-				//追加に成功した場合はtrueを返す
-				if (result == 1) {
-					return true;
+				if (result != 1) {
+					throw new Exception("ユーザーの追加に失敗しました。");
 				}
+			} else {
+				throw new Exception("そのユーザー名は既に使用されています。");
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-
-		//登録に失敗した場合はfalsseを返す
-		return false;
 	}
 
-
 	/**
-	 * ログインユーザーが存在するか確認するメソッド
+	 * ユーザーがログイン可能か確認するメソッド
 	 *
-	 * @param loginUser		確認するユーザー情報
-	 * @return		存在する場合はtrue
+	 * @param loginUser			確認するユーザー情報
+	 * @exception Exception 	ログイン不可の場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static boolean login(User loginUser) {
+	public static void login(User loginUser) throws Exception, SQLException {
 
 		try (Connection con = DAOParent.createConnection()) {
 
@@ -66,17 +62,10 @@ public class UsersDAO extends DAOParent {
 			ps.setString(2, loginUser.getPass());
 			ResultSet rs = ps.executeQuery();
 
-			//ログインユーザーが存在する場合はtrueを返す
-			if (rs.next()) {
-				return true;
+			if (!rs.next()) {
+				throw new Exception("ログインできませんでした。入力内容をご確認ください。");
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-
-		//ログインユーザーが存在しない場合はfalseを返す
-		return false;
 	}
 
 }

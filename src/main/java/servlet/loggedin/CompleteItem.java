@@ -9,11 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.CompleteItemLogic;
+import dao.ItemsDAO;
 
 /**
  * Servlet implementation class CompleteItem
- *
  * ToDoの完了処理に関するサーブレットクラス
  */
 @WebServlet("/LoggedIn/CompleteItem")
@@ -26,21 +25,22 @@ public class CompleteItem extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-			HttpSession session = request.getSession();
-			String userId = (String) session.getAttribute("userId");
-			int itemId = Integer.parseInt(request.getParameter("itemId"));
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		int itemId = Integer.parseInt(request.getParameter("itemId"));
 
-			//ToDoを完了させる
-			boolean result = CompleteItemLogic.execute(itemId, userId);
+		try {
+			//ToDoを完了状態にする
+			ItemsDAO.completeItem(itemId, userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//パラメータにエラー内容を設定して、エラー画面にフォワード
+			request.setAttribute("errMsg", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
+		}
 
-			if (result) {
-				//ToDoの削除処理に成功した場合はホーム画面にリダイレクト
-				response.sendRedirect("/LoggedIn/Home");
-			} else {
-				//失敗した場合は、パラメータにエラーメッセージを設定して、エラーページにフォワード
-				request.setAttribute("errMsg", "ToDoの更新処理に失敗しました。");
-				request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
-			}
+		//ホーム画面にリダイレクト
+		response.sendRedirect("/LoggedIn/Home");
 	}
 
 }

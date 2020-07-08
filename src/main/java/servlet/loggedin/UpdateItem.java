@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.Item;
+import dao.ItemsDAO;
 import model.DateCheckLogic;
-import model.UpdateItemLogic;
 
 /**
  * Servlet implementation class UpdateItem
- *
  * ToDoの更新に関するサーブレットクラス
  */
 @WebServlet("/LoggedIn/UpdateItem")
@@ -28,42 +27,44 @@ public class UpdateItem extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-			//入力された日付が存在するか確認を行う
-			int year = Integer.parseInt(request.getParameter("year"));
-			int month = Integer.parseInt(request.getParameter("month"));
-			int day = Integer.parseInt(request.getParameter("day"));
-			boolean isAvailable = DateCheckLogic.dateCheck(year, month, day);
+		int year = Integer.parseInt(request.getParameter("year"));
+		int month = Integer.parseInt(request.getParameter("month"));
+		int day = Integer.parseInt(request.getParameter("day"));
 
-			if (!isAvailable) {
-				//存在しない場合は、パラメータにエラーメッセージを設定して、エラーページにフォワード
-				request.setAttribute("errMsg", "入力された日付は存在しません。" + System.lineSeparator() + "日付を確認して再度お試しください。");
-				request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
-			}
+		//入力された日付が存在するかチェック
+		boolean isAvailable = DateCheckLogic.existCheck(year, month, day);
 
-			//ToDoの更新に必要な情報を設定
-			int itemId = Integer.parseInt(request.getParameter("itemId"));
-			String title = request.getParameter("title");
-			String memo = request.getParameter("memo");
-			boolean completed = Boolean.valueOf(request.getParameter("completed"));
-			int importance = Integer.parseInt(request.getParameter("importance"));
-			int hour = Integer.parseInt(request.getParameter("hour"));
-			int minute = Integer.parseInt(request.getParameter("minute"));
-			LocalDateTime deadLine = LocalDateTime.of(year, month, day, hour, minute);
+		if (!isAvailable) {
+			//存在しない場合は、パラメータにエラー内容を設定して、エラー画面にフォワード
+			request.setAttribute("errMsg", "入力された日付は存在しません。日付を確認して再度お試しください。");
+			request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
+		}
 
-			//更新するToDoインスタンスを作成
-			Item updateItem = new Item(itemId, title, memo, deadLine, completed, importance);
+		int itemId = Integer.parseInt(request.getParameter("itemId"));
+		String title = request.getParameter("title");
+		String memo = request.getParameter("memo");
+		boolean completed = Boolean.valueOf(request.getParameter("completed"));
+		int importance = Integer.parseInt(request.getParameter("importance"));
 
-			//ToDoの更新を行う
-			boolean result = UpdateItemLogic.execute(updateItem);
+		int hour = Integer.parseInt(request.getParameter("hour"));
+		int minute = Integer.parseInt(request.getParameter("minute"));
+		LocalDateTime deadLine = LocalDateTime.of(year, month, day, hour, minute);
 
-			if (result) {
-				//ToDoの更新処理に成功した場合はホーム画面にリダイレクト
-				response.sendRedirect("/LoggedIn/Home");
-			} else {
-				//失敗した場合は、パラメータにエラーメッセージを設定して、エラーページにフォワード
-				request.setAttribute("errMsg", "ToDoの更新処理に失敗しました。" + System.lineSeparator() + "時間をおいて再度お試しください。");
-				request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
-			}
+		Item updateItem = new Item(itemId, title, memo, deadLine, completed, importance);
+
+		try {
+			//ToDoの追加を行う
+			ItemsDAO.updateItem(updateItem);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//パラメータにエラー内容を設定して、エラー画面にフォワード
+			request.setAttribute("errMsg", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
+		}
+
+		//ホーム画面にリダイレクト
+		response.sendRedirect("/LoggedIn/Home");
+
 	}
 
 }

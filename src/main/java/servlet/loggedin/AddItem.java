@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.Item;
-import model.AddItemLogic;
+import dao.ItemsDAO;
 import model.DateCheckLogic;
 
 /**
  * Servlet implementation class AddItem
- *
  * ToDoの追加に関するサーブレットクラス
  */
 @WebServlet("/LoggedIn/AddItem")
@@ -30,7 +29,8 @@ public class AddItem extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//現在の時刻をパラメータに設定して、ToDo追加画面にフォワード
+		//フォーム表示用に現在の日時をパラメータに設定して、
+		//ToDo追加画面にフォワード
 		LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC+09:00"));
 		request.setAttribute("now", now);
 		request.getRequestDispatcher("/WEB-INF/jsp/addItem.jsp").forward(request, response);
@@ -43,42 +43,43 @@ public class AddItem extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//入力された日付が存在するか確認を行う
 		int year = Integer.parseInt(request.getParameter("year"));
 		int month = Integer.parseInt(request.getParameter("month"));
 		int day = Integer.parseInt(request.getParameter("day"));
-		boolean isAvailable = DateCheckLogic.dateCheck(year, month, day);
+
+		//入力された日付が存在するかチェック
+		boolean isAvailable = DateCheckLogic.existCheck(year, month, day);
 
 		if (!isAvailable) {
-			//存在しない場合は、パラメータにエラーメッセージを設定して、ToDo追加画面にフォワード
-			request.setAttribute("errMsg", "入力された日付は存在しません。" + System.lineSeparator() + "日付を確認して再度お試しください。");
+			//存在しない場合は、パラメータにエラー内容を設定して、エラー画面にフォワード
+			request.setAttribute("errMsg", "入力された日付は存在しません。日付を確認して再度お試しください。");
 			request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
 		}
 
-		//ToDo追加の処理に必要な情報を設定
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		String userId = (String) session.getAttribute("userId");
 		String title = request.getParameter("title");
-		int importance = Integer.parseInt(request.getParameter("importance"));
 		String memo = request.getParameter("memo");
+		int importance = Integer.parseInt(request.getParameter("importance"));
+
 		int hour = Integer.parseInt(request.getParameter("hour"));
 		int minute = Integer.parseInt(request.getParameter("minute"));
 		LocalDateTime deadLine = LocalDateTime.of(year, month, day, hour, minute);
 
-		//追加するToDoインスタンスを作成
 		Item addItem = new Item(userId, title, memo, deadLine, importance);
 
-		//ToDoの追加を行う
-		boolean result = AddItemLogic.execute(addItem);
-
-		if (result) {
-			//ToDoの追加処理に成功した場合は、ホーム画面にリダイレクト
-			response.sendRedirect("/LoggedIn/Home");
-		} else {
-			//失敗した場合は、パラメータにエラーメッセージを設定して、ToDo追加画面にフォワード
-			request.setAttribute("errMsg", "ToDoの追加に失敗しました" + System.lineSeparator() + "時間をおいて再度お試しください。");
+		try {
+			//ToDoの追加を行う
+			ItemsDAO.addItem(addItem);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//パラメータにエラー内容を設定して、エラー画面にフォワード
+			request.setAttribute("errMsg", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
 		}
+
+		//ホーム画面にリダイレクト
+		response.sendRedirect("/LoggedIn/Home");
 
 	}
 

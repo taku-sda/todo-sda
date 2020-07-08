@@ -27,7 +27,11 @@ public class DAOParent {
 		}
 	}
 
-
+	/**
+	 * データベースとのConnectionを得るメソッド
+	 * @return					データベースとのConnection
+	 * @throws SQLException		データベース処理の例外
+	 */
 	static Connection createConnection() throws SQLException {
 
 		return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);

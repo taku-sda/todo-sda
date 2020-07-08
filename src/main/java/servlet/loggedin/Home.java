@@ -15,7 +15,6 @@ import model.HomeLogic;
 
 /**
  * Servlet implementation class Home
- *
  * ホーム画面に関するサーブレットクラス
  */
 @WebServlet("/LoggedIn/Home")
@@ -31,20 +30,23 @@ public class Home extends HttpServlet {
 			HttpSession session = request.getSession();
 			String userId = (String) session.getAttribute("userId");
 
-			//ToDoの一覧を取得
-			List<Item> itemList = HomeLogic.exectute(userId);
+			List<List<Item>>classifiedList = null;
 
-			//ToDoの一覧を期限順にソート
-			HomeLogic.sortItem(itemList);
+			try {
+				//ホーム画面表示用に分類されたToDo一覧を取得
+				classifiedList = HomeLogic.getClassifiedLists(userId);
+			}catch(Exception e) {
+				e.printStackTrace();
+				//パラメータにエラー内容を設定して、エラー画面にフォワード
+				request.setAttribute("errMsg", e.getMessage());
+				request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
+			}
 
-			//ToDoの一覧を期限、状態で分類
-			List<List<Item>> resultList = HomeLogic.classificationItem(itemList);
-			List<Item> completedList = resultList.get(0);
-			List<Item> expiredList = resultList.get(1);
-			List<Item> todayList = resultList.get(2);
-			List<Item> otherList = resultList.get(3);
+			List<Item> completedList = classifiedList.get(0);		//完了
+			List<Item> expiredList = classifiedList.get(1);		//期限切れ
+			List<Item> todayList = classifiedList.get(2);			//今日まで
+			List<Item> otherList = classifiedList.get(3);			//その他
 
-			//各種ToDoの一覧をリクエストスコープに保存
 			request.setAttribute("completedList", completedList);
 			request.setAttribute("expiredList", expiredList);
 			request.setAttribute("todayList", todayList);

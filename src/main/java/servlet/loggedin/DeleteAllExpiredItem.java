@@ -9,11 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.DeleteAllExpiredItemLogic;
+import dao.ItemsDAO;
 
 /**
  * Servlet implementation class DeleteAllExpiredItem
- *
  * 期限切れのToDoの一括削除に関するサーブレットクラス
  */
 @WebServlet("/LoggedIn/DeleteAllExpiredItem")
@@ -26,20 +25,21 @@ public class DeleteAllExpiredItem extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-			HttpSession session = request.getSession();
-			String userId = (String) session.getAttribute("userId");
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
 
-			//全ての期限切れのToDoを削除
-			boolean result = DeleteAllExpiredItemLogic.execute(userId);
+		try {
+			//ログインユーザーの期限切れのToDoをすべて削除する
+			ItemsDAO.deleteAllExpiredItem(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//パラメータにエラー内容を設定して、エラー画面にフォワード
+			request.setAttribute("errMsg", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
+		}
 
-			if (result) {
-				//ToDoの削除処理に成功した場合はホーム画面にリダイレクト
-				response.sendRedirect("/LoggedIn/Home");
-			} else {
-				//失敗した場合は、パラメータにエラーメッセージを設定して、エラーページにフォワード
-				request.setAttribute("errMsg", "ToDoの削除処理に失敗しました。" + System.lineSeparator() + "時間をおいて再度お試しください。");
-				request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
-			}
+		//ホーム画面にリダイレクト
+		response.sendRedirect("/LoggedIn/Home");
 	}
 
 }

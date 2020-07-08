@@ -15,19 +15,19 @@ import beans.Item;
 /**
  * ITEMテーブルに関する操作を行うDAOクラス
  */
-public class ItemsDAO extends DAOParent{
+public class ItemsDAO extends DAOParent {
 
 	/**データベースから取得したDateTimeをLocalDateTimeに変換する際のフォーマット*/
 	private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-
 	/**
 	 * ToDoを追加するメソッド
 	 *
-	 * @param addItem	追加するToDo情報(userId、タイトル、メモ、期限)
-	 * @return		追加に成功した場合はtrue
+	 * @param addItem			追加するToDo情報(ユーザーID、タイトル、メモ、期限)
+	 * @exception Exception 	追加に失敗した場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static boolean addItem(Item addItem) {
+	public static void addItem(Item addItem) throws Exception, SQLException {
 
 		try (Connection con = DAOParent.createConnection()) {
 
@@ -43,28 +43,20 @@ public class ItemsDAO extends DAOParent{
 
 			int result = ps.executeUpdate();
 
-			//追加に成功した場合はtrueを返す
-			if (result == 1) {
-				return true;
+			if (result < 1) {
+				throw new Exception("ToDoの追加に失敗しました。");
 			}
-
-		} catch (SQLException e) {
-
-			e.printStackTrace();
 		}
-
-		//追加に失敗した場合はfalseを返す
-		return false;
 	}
-
 
 	/**
 	 * ToDOの内容を更新するメソッド
 	 *
-	 * @param updateItem	更新するToDo情報(itemId、タイトル、メモ、期限)
-	 * @return		更新に成功した場合はtrue
+	 * @param updateItem		更新するToDo情報(ToDoのID、タイトル、メモ、期限、完了状態、重要度)
+	 * @exception Exception 	更新に失敗した場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static boolean updateItem(Item updateItem) {
+	public static void updateItem(Item updateItem) throws Exception, SQLException {
 
 		try (Connection con = DAOParent.createConnection()) {
 
@@ -80,29 +72,23 @@ public class ItemsDAO extends DAOParent{
 
 			int result = ps.executeUpdate();
 
-			//更新に成功した場合はtrueを返す
-			if (result == 1) {
-				return true;
+			if (result < 1) {
+				throw new Exception("ToDoの更新に失敗しました。");
 			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-
-		//更新に失敗した場合はfalseを返す
-		return false;
 	}
 
-
 	/**
-	 * userIdに対応するToDoの一覧を検索し、取得するメソッド
+	 * ログインユーザーのToDoの一覧を取得するメソッド
 	 *
-	 * @param userId	検索するユーザーのuserId
-	 * @return		検索結果のToDoのリスト
+	 * @param userId						ログインユーザーのID
+	 * @return								ToDoの一覧
+	 * @exception SQLException 			データベース処理の例外
+	 * @exception DateTimeParseException 	DateTimeの変換時のエラー
 	 */
-	public static List<Item> searchItemByUserId(String userId) {
+	public static List<Item> getListByUserId(String userId) throws SQLException, DateTimeParseException {
 
-		/**検索結果のToDoを格納するリスト*/
 		List<Item> itemList = new ArrayList<>();
 
 		try (Connection con = DAOParent.createConnection()) {
@@ -124,27 +110,23 @@ public class ItemsDAO extends DAOParent{
 				itemList.add(item);
 			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (DateTimeParseException e) {
-			e.printStackTrace();
 		}
 
 		return itemList;
-
 	}
 
-
 	/**
-	 * ITEMIDとUSERIDに対応するToDoの詳細を取得するメソッド
+	 * IDに対応するToDoの詳細を取得するメソッド。
+	 * ログインユーザーのToDoである場合のみ取得する
 	 *
-	 * @param itemId	ITEMID
-	 * @param userId	USERID
-	 * @return			取得したToDo情報(存在しない場合はnull)
+	 * @param itemId			取得するToDoのID
+	 * @param userId			ログインユーザーのID
+	 * @return					取得したToDo情報
+	 * @exception Exception 	取得できるToDoがない場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static Item searchItemByItemId(int itemId, String userId) {
+	public static Item getDetail(int itemId, String userId) throws Exception, SQLException {
 
-		/**ToDo情報を格納するItemインスタンス*/
 		Item detailItem = null;
 
 		try (Connection con = DAOParent.createConnection()) {
@@ -155,164 +137,126 @@ public class ItemsDAO extends DAOParent{
 			ps.setString(2, userId);
 			ResultSet rs = ps.executeQuery();
 
-			//ToDoが存在する場合は詳細を格納
-			if (rs.next()) {
-				detailItem = new Item();
-				detailItem.setItemId(itemId);
-				detailItem.setTitle(rs.getString("TITLE"));
-				detailItem.setMemo(rs.getString("MEMO"));
-				//取得したDateTimeをLocalDateTimeに変換
-				detailItem.setDeadLine(LocalDateTime.parse(rs.getString("DEADLINE"), DTF));
-				detailItem.setCompleted(rs.getBoolean("COMPLETED"));
-				detailItem.setImportance(rs.getInt("IMPORTANCE"));
+			if (!rs.next()) {
+				throw new Exception("該当するToDoが見つかりませんでした。");
 			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+			detailItem = new Item();
+			detailItem.setItemId(itemId);
+			detailItem.setTitle(rs.getString("TITLE"));
+			detailItem.setMemo(rs.getString("MEMO"));
+			//取得したDateTimeをLocalDateTimeに変換
+			detailItem.setDeadLine(LocalDateTime.parse(rs.getString("DEADLINE"), DTF));
+			detailItem.setCompleted(rs.getBoolean("COMPLETED"));
+			detailItem.setImportance(rs.getInt("IMPORTANCE"));
 		}
 
 		return detailItem;
 
 	}
 
-
 	/**
-	 * ITEMIDとUSERIDに対応するToDoをデータベースから削除するメソッド
+	 * IDに対応するToDoを削除するメソッド。
+	 * ログインユーザーのToDoである場合のみ削除する
 	 *
-	 * @param itemId	ITEMID
-	 * @param userId	USERID
-	 * @return			削除に成功した場合はtrue
+	 * @param itemId			削除するToDoのID
+	 * @param userId			ログインユーザーのID
+	 * @exception Exception 	削除に失敗した場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static boolean deleteItem(int itemId, String userId) {
+	public static void deleteItem(int itemId, String userId) throws Exception, SQLException {
 
 		try (Connection con = DAOParent.createConnection()) {
 
-			//SQLの実行
 			String sql = "DELETE FROM ITEMS WHERE ITEMID = ? AND USERID=?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, itemId);
 			ps.setString(2, userId);
 
-			//実行結果を取得
 			int result = ps.executeUpdate();
 
-			//削除に成功した場合はtrueを返す
-			if (result == 1) {
-				return true;
+			if (result < 1) {
+				throw new Exception("ToDoの削除に失敗しました。");
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-
-		//削除に失敗した場合はfalseを返す
-		return false;
 	}
 
-
 	/**
-	 * ITEMIDとUSERIDに対応するToDoを完了状態にするメソッド
+	 * IDに対応するToDoを完了状態にするメソッド。
+	 * ログインユーザーのToDoである場合のみ変更する
 	 *
-	 *
-	 * @param itemId 	ITEMID
-	 * @param userId   USERID
-	 * @return			完了状態への変更が実行されたらtrue
+	 * @param itemId			完了状態にするToDoのID
+	 * @param userId			ログインユーザーのID
+	 * @exception Exception 	変更に失敗した場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static boolean completeItem(int itemId, String userId) {
+	public static void completeItem(int itemId, String userId) throws Exception, SQLException {
 
 		try (Connection con = DAOParent.createConnection()) {
 
-			//SQLの実行
 			String sql = "UPDATE ITEMS SET COMPLETED=? WHERE ITEMID=? AND USERID=?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setBoolean(1, true);
 			ps.setInt(2, itemId);
 			ps.setString(3, userId);
 
-			//実行結果の取得
 			int result = ps.executeUpdate();
 
-			//変更が実行されていたらtrueを返す
-			if (result == 1) {
-				return true;
+			if (result < 1) {
+				throw new Exception("ToDoを完了状態にできませんでした。");
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-
-		//変更が実行されなかったらfalseを返す
-		return false;
-
 	}
 
-
 	/**
-	 * USERIDの期限が現在よりも前のToDoをすべて削除するメソッド
+	 * ログインユーザーの、期限が現在よりも前のToDoをすべて削除するメソッド。
+	 * ただし、完了状態のToDoは削除しない
 	 *
-	 * @param userId	USERID
-	 * @return			削除が実行されたらtrue
+	 * @param userId	ログインユーザーのID
+	 * @exception Exception 	削除に失敗した場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static boolean deleteAllExpiredItem(String userId) {
+	public static void deleteAllExpiredItem(String userId) throws Exception, SQLException {
 
 		try (Connection con = DAOParent.createConnection()) {
 
-			//SQLの実行
 			String sql = "DELETE FROM ITEMS WHERE USERID = ? AND DEADLINE < TO_TIMESTAMP(?, ?) AND COMPLETED = FALSE";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, userId);
 			ps.setString(2, toTimestampStr(LocalDateTime.now()));
 			ps.setString(3, "'YYYY/MM/DD HH24:MI:SS'");
 
-			//実行結果の取得
 			int result = ps.executeUpdate();
 
-			//削除が実行されていたらtrueを返す
-			if (result >= 1) {
-				return true;
+			if (result < 1) {
+				throw new Exception("ToDoの削除に失敗しました。");
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-
-		//削除が実行されなかったらfalseを返す
-		return false;
 	}
 
-
 	/**
-	 * USERIDの完了状態のToDoをすべて削除するメソッド
+	 * ログインユーザーの、完了状態のToDoをすべて削除にするメソッド。
 	 *
-	 *@param userId 	USERID
-	 * @return			削除が実行されたらtrue
+	 * @param userId	ログインユーザーのID
+	 * @exception Exception 	削除に失敗した場合
+	 * @exception SQLException データベース処理の例外
 	 */
-	public static boolean deleteAllCompletedItem(String userId) {
+	public static void deleteAllCompletedItem(String userId) throws Exception, SQLException {
 
 		try (Connection con = DAOParent.createConnection()) {
 
-			//SQLの実行
 			String sql = "DELETE FROM ITEMS WHERE USERID = ? AND COMPLETED = ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, userId);
 			ps.setBoolean(2, true);
 
-			//実行結果の取得
 			int result = ps.executeUpdate();
 
-			//削除が実行されていたらtrueを返す
-			if (result >= 1) {
-				return true;
+			if (result < 1) {
+				throw new Exception("ToDoの削除に失敗しました。");
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-
-		//削除が実行されなかったらfalseを返す
-		return false;
 	}
-
 
 	/**
 	 * LocalDateTimeをPostgreSQL対応のtimestamp文字列に変換するメソッド
@@ -329,7 +273,7 @@ public class ItemsDAO extends DAOParent{
 		sb.append(dl.getDayOfMonth()).append(" ");
 		sb.append(dl.getHour()).append(":");
 		sb.append(dl.getMinute()).append(":");
-		sb.append("0'");
+		sb.append("0'"); //秒は設定しない
 
 		return sb.toString();
 	}

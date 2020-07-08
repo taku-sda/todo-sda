@@ -10,11 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.Item;
-import model.DetailItemLogic;
+import dao.ItemsDAO;
 
 /**
  * Servlet implementation class DetailItem
- *
  * ToDoの詳細画面に関するサーブレットクラス
  */
 @WebServlet("/LoggedIn/DetailItem")
@@ -28,18 +27,21 @@ public class DetailItem extends HttpServlet {
 			String userId = (String) session.getAttribute("userId");
 			int itemId = Integer.parseInt(request.getParameter("itemId"));
 
-			//ToDoの詳細を取得
-			Item detailItem = DetailItemLogic.execute(itemId, userId);
+			Item detailItem = null;
 
-			if (detailItem != null) {
-				//取得できた場合は、詳細をパラメータに設定して、詳細画面にフォワード
-				request.setAttribute("detailItem", detailItem);
-				request.getRequestDispatcher("/WEB-INF/jsp/detailItem.jsp").forward(request, response);
-			} else {
-				//取得できなかった場合は、エラーメッセージをパラメータに設定して、エラー画面にフォワード
-				request.setAttribute("errMsg", "ToDoの詳細の取得に失敗しました。");
+			try {
+				//ToDoの詳細を取得
+				detailItem = ItemsDAO.getDetail(itemId, userId);
+			}catch(Exception e) {
+				e.printStackTrace();
+				//パラメータにエラー内容を設定して、エラー画面にフォワード
+				request.setAttribute("errMsg", e.getMessage());
 				request.getRequestDispatcher("/WEB-INF/jsp/itemError.jsp").forward(request, response);
 			}
+
+			//パラメータにToDo情報を格納して、ToDo詳細画面にフォワード
+			request.setAttribute("detailItem", detailItem);
+			request.getRequestDispatcher("/WEB-INF/jsp/detailItem.jsp").forward(request, response);
 	}
 
 }
