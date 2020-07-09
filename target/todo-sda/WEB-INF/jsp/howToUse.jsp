@@ -51,7 +51,7 @@
 			ようこそ
 			<c:out value="${userId}" />
 			さん！<%=JSPHelper.getLogout()%></h6>
-		<h4><%=JSPHelper.getNow()%></h4>
+		<h4><%=JSPHelper.getToday()%></h4>
 	</div>
 
 	<%--ページメイン --%>

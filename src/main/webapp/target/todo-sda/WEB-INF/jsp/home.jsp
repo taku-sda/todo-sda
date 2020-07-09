@@ -44,7 +44,7 @@
 	</div>
 
 	<div class="container">
-	 <h4 class="my-3">ようこそ<c:out value="${userId}"/>さん！ <%= Helper.getNow() %></h4>
+	 <h4 class="my-3">ようこそ<c:out value="${userId}"/>さん！ <%= Helper.getToday() %></h4>
 
 	 <c:if test="${empty completedList && empty expiredList && empty todayList && empty otherList}">
 	 <h5>登録されているToDoがありません。<a href="/LoggedIn/AddItem">ToDoの追加</a>をしてみましょう。</h5>

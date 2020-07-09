@@ -8,50 +8,47 @@
 <!-- viewport meta -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-
 <title>ToDo!!｜ToDo処理エラー</title>
 </head>
 <body>
-	<%--ログイン後ナビバー --%>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="Navbar">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/LoggedIn/HowToUse">使い方</a></li>
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/LoggedIn/AddItem">ToDoの追加</a></li>
-			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/LoggedIn/Logout">ログアウト</a></li>
-			</ul>
+	<header>
+		<%--ログイン後ナビバー --%>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="Navbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/LoggedIn/HowToUse">使い方</a></li>
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/LoggedIn/AddItem">ToDoの追加</a></li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/LoggedIn/Logout">ログアウト</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<%--ホーム画面へのリンク --%>
+		<div class="mt-2 mb-5 mr-2">
+			<div class="float-right"><%=JSPHelper.getHome()%></div>
 		</div>
-	</nav>
+	</header>
 
-	<%--ホーム画面へのリンク --%>
-	<div class="mt-2 mr-2">
-		<div class="float-right"><%=JSPHelper.getHome()%></div>
-	</div>
-
-	<%--ページメイン --%>
 	<div class="container">
-		<h1 class="display-4">ToDoの処理中にエラーが発生しました</h1>
+		<h1 class="mb-4">エラーが発生しました</h1>
 		<c:if test="${not empty errMsg}">
-			<pre>
-				<span class="bg-warning"><c:out value="${errMsg}"></c:out></span>
-			</pre>
+				<span class="bg-warning p-1"><c:out value="${errMsg}"></c:out></span>
 		</c:if>
 	</div>
 

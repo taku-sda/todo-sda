@@ -8,7 +8,6 @@
 <!-- viewport meta -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -17,30 +16,31 @@
 <title>ToDo!!｜ユーザー登録完了</title>
 </head>
 <body>
-	<%--ログイン前ナビバー --%>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/">ToDo!!</a>
-		<button type="button" class="navbar-toggler" data-toggle="collapse"
-			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse justify-content-end" id="Navbar">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/Register">ユーザー登録</a></li>
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/Login">ログイン</a></li>
-			</ul>
+	<header>
+		<%--ログイン前ナビバー --%>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">ToDo!!</a>
+			<button type="button" class="navbar-toggler" data-toggle="collapse"
+				data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="Navbar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/Register">ユーザー登録</a></li>
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/Login">ログイン</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<%--トップ画面へのリンク --%>
+		<div class="mt-2 mb-5 mr-2">
+			<div class="float-right"><%=JSPHelper.getTop()%></div>
 		</div>
-	</nav>
+	</header>
 
-	<%--トップ画面へのリンク --%>
-	<div class="mt-2 mb-5 mr-2">
-		<div class="float-right"><%=JSPHelper.getTop()%></div>
-	</div>
-
-	<%--ページメイン --%>
 	<div class="container">
 		<h1 class="mb-5">以下の内容でユーザー登録しました</h1>
 		<div class="mb-3">
@@ -51,7 +51,7 @@
 			パスワード：
 			<c:out value="${pass}" />
 		</div>
-		<a class="btn btn-primary mb-4" href="/LoggedIn/Home">ToDo!!ホーム画面へ</a>
+		<a href="/LoggedIn/Home" class="btn btn-primary mb-4">ToDo!!ホーム画面へ</a>
 	</div>
 
 	<!-- jQuery、Popper.js、Bootstrap JS -->

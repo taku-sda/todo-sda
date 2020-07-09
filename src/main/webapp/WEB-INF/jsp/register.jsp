@@ -8,55 +8,54 @@
 <!-- viewport meta -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-
 <title>ToDo!!｜ユーザー登録</title>
 </head>
 <body>
-	<%--ログイン前ナビバー --%>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/">ToDo!!</a>
-		<button type="button" class="navbar-toggler" data-toggle="collapse"
-			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse justify-content-end" id="Navbar">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/Register">ユーザー登録</a></li>
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/Login">ログイン</a></li>
-			</ul>
+	<header>
+		<%--ログイン前ナビバー --%>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">ToDo!!</a>
+			<button type="button" class="navbar-toggler" data-toggle="collapse"
+				data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="Navbar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/Register">ユーザー登録</a></li>
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/Login">ログイン</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<%--トップ画面へのリンク --%>
+		<div class="mt-2 mb-5 mr-2">
+			<div class="float-right"><%=JSPHelper.getTop()%></div>
 		</div>
-	</nav>
+	</header>
 
-	<%--トップ画面へのリンク --%>
-	<div class="mt-2 mb-5 mr-2">
-		<div class="float-right"><%=JSPHelper.getTop()%></div>
-	</div>
-
-	<%--ページメイン --%>
 	<div class="container">
 		<h1 class="mb-3">ユーザー登録</h1>
 		<%--ユーザー登録フォーム --%>
 		<form action="/Register" method="post">
 			<div class="form-group">
-				<label for="userIdForm">ユーザーID(英数字20文字以内)</label> <input type="text"
-					class="form-control w-50" id="userIdForm" name="userId"
+				<label for="userIdForm">ユーザーID(英数字20文字以内)</label>
+				<input type="text" class="form-control w-50" id="userIdForm" name="userId"
 					value="${userId}" required>
 			</div>
 			<div class="form-group">
-				<label for="passwordFrom">パスワード(英数字4～8文字)</label> <input
-					type="password" class=" form-control w-50" id="passwordForm"
+				<label for="passwordFrom">パスワード(英数字4～8文字)</label>
+				<input type="password" class=" form-control w-50" id="passwordForm"
 					name="pass" value="${pass}" required>
 			</div>
-			<button type="submit" class="btn btn-primary w-25 mb-4">登録</button>
+			<button type="submit" class="btn btn-primary mb-4">登録</button>
 		</form>
 	</div>
 

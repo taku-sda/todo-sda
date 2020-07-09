@@ -8,7 +8,6 @@
 <!-- viewport meta -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -17,38 +16,36 @@
 <title>ToDo!!｜ホーム</title>
 </head>
 <body>
-	<%--ログイン後ナビバー --%>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="Navbar">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/LoggedIn/HowToUse">使い方</a></li>
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/LoggedIn/AddItem">ToDoの追加</a></li>
-			</ul>
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/LoggedIn/Logout">ログアウト</a></li>
-			</ul>
+	<header>
+		<%--ログイン後ナビバー --%>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="/LoggedIn/Home">ToDo!!</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="Navbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/LoggedIn/HowToUse">使い方</a></li>
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/LoggedIn/AddItem">ToDoの追加</a></li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/LoggedIn/Logout">ログアウト</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<%--ユーザー名、ログアウトリンク、日付表示 --%>
+		<div class="container mt-3">
+			<h6>ようこそ<c:out value="${userId}" />さん！<%=JSPHelper.getLogout()%></h6>
+			<h4><%=JSPHelper.getToday()%></h4>
 		</div>
-	</nav>
+	</header>
 
-	<%--ユーザー情報、日時表示 --%>
-	<div class="container mt-3">
-		<h6>
-			ようこそ
-			<c:out value="${userId}" />
-			さん！<%=JSPHelper.getLogout()%></h6>
-		<h4><%=JSPHelper.getNow()%></h4>
-	</div>
-
-	<%--ページメイン --%>
 	<%--今日までのToDoの表示 --%>
 	<div class="container mt-5">
 		<%--ToDoが存在する場合のみ表示する --%>
@@ -64,8 +61,7 @@
 							<th>タイトル</th>
 							<th>期限</th>
 							<th>重要度</th>
-							<th></th>
-							<%--完了ボタン用の見出し --%>
+							<th><%--完了ボタン用の見出し --%></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -73,8 +69,7 @@
 						<c:forEach var="i" begin="0" end="${todayList.size() -1}" step="1">
 							<tr>
 								<%--タイトル --%>
-								<td><a
-									href="/LoggedIn/DetailItem?itemId=${todayList[i].getItemId()}">${todayList[i].getTitle()}</a>
+								<td><a href="/LoggedIn/DetailItem?itemId=${todayList[i].getItemId()}">${todayList[i].getTitle()}</a>
 								</td>
 								<%--期限 --%>
 								<td>${todayList[i].getHour()}時${todayList[i].getMinute()}分</td>
@@ -85,8 +80,7 @@
 										<c:when test="${todayList[i].getImportance() == 1 }">小</c:when>
 									</c:choose></td>
 								<%--完了ボタン --%>
-								<td><a
-									href="/LoggedIn/CompleteItem?itemId=${todayList[i].getItemId()}">済</a></td>
+								<td><a href="/LoggedIn/CompleteItem?itemId=${todayList[i].getItemId()}">済</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -126,8 +120,7 @@
 								<th>タイトル</th>
 								<th>期限</th>
 								<th>重要度</th>
-								<th></th>
-								<%--完了ボタン用の見出し --%>
+								<th><%--完了ボタン用の見出し --%></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -136,8 +129,7 @@
 								step="1">
 								<tr>
 									<%--タイトル --%>
-									<td><a
-										href="/LoggedIn/DetailItem?itemId=${otherList[i].getItemId()}">${otherList[i].getTitle()}</a>
+									<td><a href="/LoggedIn/DetailItem?itemId=${otherList[i].getItemId()}">${otherList[i].getTitle()}</a>
 									</td>
 									<%--期限 --%>
 									<td>${otherList[i].getYear()}/${otherList[i].getMonth()}/${otherList[i].getDay()}</td>
@@ -148,8 +140,7 @@
 											<c:when test="${otherList[i].getImportance() == 1 }">小</c:when>
 										</c:choose></td>
 									<%--完了ボタン --%>
-									<td><a
-										href="/LoggedIn/CompleteItem?itemId=${otherList[i].getItemId()}">済</a></td>
+									<td><a href="/LoggedIn/CompleteItem?itemId=${otherList[i].getItemId()}">済</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -187,11 +178,9 @@
 									step="1">
 									<tr>
 										<%--タイトル --%>
-										<td><a
-											href="/LoggedIn/DetailItem?itemId=${completedList[i].getItemId()}">${completedList[i].getTitle()}</a></td>
+										<td><a href="/LoggedIn/DetailItem?itemId=${completedList[i].getItemId()}">${completedList[i].getTitle()}</a></td>
 										<%--削除ボタン --%>
-										<td><a
-											href="/LoggedIn/DeleteItem?itemId=${completedList[i].getItemId()}">削除</a></td>
+										<td><a href="/LoggedIn/DeleteItem?itemId=${completedList[i].getItemId()}">削除</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -228,11 +217,9 @@
 									step="1">
 									<tr>
 										<%--タイトル --%>
-										<td><a
-											href="/LoggedIn/DetailItem?itemId=${expiredList[i].getItemId()}">${expiredList[i].getTitle()}</a></td>
+										<td><a href="/LoggedIn/DetailItem?itemId=${expiredList[i].getItemId()}">${expiredList[i].getTitle()}</a></td>
 										<%--削除ボタン --%>
-										<td><a
-											href="/LoggedIn/DeleteItem?itemId=${expiredList[i].getItemId()}">削除</a></td>
+										<td><a href="/LoggedIn/DeleteItem?itemId=${expiredList[i].getItemId()}">削除</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>

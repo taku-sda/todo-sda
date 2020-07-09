@@ -8,48 +8,48 @@
 <!-- viewport meta -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-
-<title>ToDo!!｜入力内容エラー</title>
+<title>ToDo!!｜ユーザー確認エラー</title>
 </head>
 <body>
-	<%--ログイン前ナビバー --%>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/">ToDo!!</a>
-		<button type="button" class="navbar-toggler" data-toggle="collapse"
-			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse justify-content-end" id="Navbar">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/Register">ユーザー登録</a></li>
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/Login">ログイン</a></li>
-			</ul>
+	<header>
+		<%--ログイン前ナビバー --%>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">ToDo!!</a>
+			<button type="button" class="navbar-toggler" data-toggle="collapse"
+				data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="Navbar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/Register">ユーザー登録</a></li>
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/Login">ログイン</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<%--トップ画面へのリンク --%>
+		<div class="mt-2 mb-5 mr-2">
+			<div class="float-right"><%=JSPHelper.getTop()%></div>
 		</div>
-	</nav>
+	</header>
 
-	<%--トップ画面へのリンク --%>
-	<div class="mt-2 mb-5 mr-2">
-		<div class="float-right"><%=JSPHelper.getTop()%></div>
-	</div>
-
-	<%--ページメイン --%>
 	<div class="container">
+		<h1 class="mb-4">エラーが発生しました</h1>
 		<%--エラー内容表示 --%>
-		<h1 class="mb-4">入力内容にエラーがあります</h1>
-		<c:if test="${not empty errMsg}">
-			<pre>
-				<span class="bg-warning"><c:out value="${errMsg }" /></span>
-			</pre>
-		</c:if>
+		<p>
+			<c:if test="${not empty errMsg}">
+				<span class="bg-warning p-1"><c:out value="${errMsg }" /></span>
+			</c:if>
+		</p>
+
 		<%--遷移前のページに戻るボタン --%>
 		<c:choose>
 			<c:when test="${errType == 'register'}">

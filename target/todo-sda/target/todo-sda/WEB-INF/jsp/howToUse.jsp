@@ -45,7 +45,7 @@
 
 	<div class="container">
 
-	<h4 class="my-3">ようこそ<c:out value="${userId}"/>さん！ <%= Helper.getNow() %></h4>
+	<h4 class="my-3">ようこそ<c:out value="${userId}"/>さん！ <%= Helper.getToday() %></h4>
 
 	<h1 class="display-3 mb-4">ToDo!!の使い方</h1>
 

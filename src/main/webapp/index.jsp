@@ -8,7 +8,6 @@
 <!-- viewport meta -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -17,46 +16,47 @@
 <title>ToDo!!</title>
 </head>
 <body>
-	<%--ログイン前ナビバー --%>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="/">ToDo!!</a>
-		<button type="button" class="navbar-toggler" data-toggle="collapse"
-			data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse justify-content-end" id="Navbar">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/Register">ユーザー登録</a></li>
-				<li class="nav-item"><a class="nav-link text-light"
-					href="/Login">ログイン</a></li>
-			</ul>
-		</div>
-	</nav>
+	<header>
+		<%--ログイン前ナビバー --%>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">ToDo!!</a>
+			<button type="button" class="navbar-toggler" data-toggle="collapse"
+				data-target="#Navbar" aria-controls="Navbar" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="Navbar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/Register">ユーザー登録</a></li>
+					<li class="nav-item"><a class="nav-link text-light"
+						href="/Login">ログイン</a></li>
+				</ul>
+			</div>
+		</nav>
 
-	<%--サイトタイトル --%>
-	<div class="jambotron bg-light">
-		<div class="pl-5 py-2">
-			<h1 class="display-3">ToDo!!</h1>
-			<h4>-やること管理サイト-</h4>
+		<%--サイトタイトル --%>
+		<div class="jambotron bg-light">
+			<div class="pl-5 py-2">
+				<h1 class="display-3">ToDo!!</h1>
+				<h4>-やること管理サイト-</h4>
+			</div>
 		</div>
-	</div>
+	</header>
 
-	<%--ページメイン --%>
-	<div class="mx-5 mt-3">
+	<div class="mt-3 mx-5">
 		<%--サイト解説 --%>
 		<h1>ToDo!!とは</h1>
 		<p class="mt-3">
 			やること（ToDo）の管理を行うことができる<strong>ToDoアプリケーションサイト</strong>です。<br> <br>
 			初めての方はユーザー登録<br> 登録済みの方はログインからすぐに利用することができます
 		</p>
+
 		<%--ユーザー登録、ログインボタン --%>
 		<div class="my-5">
-			<a href="/Register" class="btn btn-primary">ユーザー登録</a> <a
-				href="/Login" class="btn btn-primary ml-4">ログイン</a>
+			<a href="/Register" class="btn btn-primary">ユーザー登録</a>
+			<a href="/Login" class="btn btn-primary ml-4">ログイン</a>
 		</div>
-
 	</div>
 
 	<!-- jQuery、Popper.js、Bootstrap JS -->

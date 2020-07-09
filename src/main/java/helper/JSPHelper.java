@@ -21,7 +21,7 @@ public class JSPHelper {
 		return "<a href=\"/LoggedIn/Logout\">ログアウト</a>";
 	}
 
-	public static String getNow() {
+	public static String getToday() {
 		LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC+09:00"));
 		StringBuilder sb = new StringBuilder();
 		sb.append("今日は");
