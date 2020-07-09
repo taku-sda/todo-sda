@@ -46,8 +46,7 @@
 
 		<%--ユーザー名、ログアウトリンク、日付表示 --%>
 		<div class="container mt-5 mb-3">
-			<h6>
-				ようこそ<c:out value="${userId}" />さん！<%=JSPHelper.getLogout()%></h6>
+			<h6>ようこそ<c:out value="${userId}" />さん！<%=JSPHelper.getLogout()%></h6>
 			<h4><%=JSPHelper.getToday()%></h4>
 		</div>
 	</header>
@@ -55,7 +54,7 @@
 	<div class="container">
 		<h1 class="display-4">ToDoの追加</h1>
 
-		<div class="bg-light p-2">
+		<div class="bg-light p-2 mb-5">
 			<%--ToDoの追加フォーム --%>
 			<form action="/LoggedIn/AddItem" method="post">
 

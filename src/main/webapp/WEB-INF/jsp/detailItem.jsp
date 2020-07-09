@@ -54,7 +54,7 @@
 	<div class="container">
 		<h1 class="display-4">ToDoの詳細</h1>
 
-		<div class="bg-light p-2">
+		<div class="bg-light p-2 mb-5">
 			<%--ToDoの詳細フォーム --%>
 			<form action="/LoggedIn/UpdateItem" method="post">
 
@@ -138,23 +138,22 @@
 				</div>
 
 				<%--メモ --%>
-				<div class="from-group mt-4">
+				<div class="from-group mt-4 mb-3">
 					<label for="memo">メモ</label>
 					<textarea name="memo" class="form-control w-100" id="memo"
-						cols="40" rows="4" maxlength="400">
-						<c:out value="${detailItem.getMemo()}"></c:out></textarea>
-					<br> <br>
+						cols="40" rows="4" maxlength="400"><c:out value="${detailItem.getMemo()}"></c:out>
+						</textarea>
 				</div>
 
 				<%--更新対象を指定するためのitemId --%>
 				<input type="hidden" name="itemId" value="${detailItem.getItemId()}">
 
 				<%--送信ボタン --%>
-				<button type="submit" class="btn btn-primary">ToDoを更新</button>
+				<button type="submit" class="btn btn-primary mb-3">ToDoを更新</button>
 
 				<%--削除ボタン --%>
 				<a href="/LoggedIn/DeleteItem?itemId=${detailItem.getItemId()}"
-					class="btn btn-secondary ml-3">ToDoを削除</a>
+					class="btn btn-secondary mb-3 ml-3">ToDoを削除</a>
 			</form>
 		</div>
 	</div>
