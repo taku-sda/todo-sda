@@ -44,7 +44,7 @@
 	</div>
 
 	<div class="container">
-	 <h4 class="my-3">ようこそ<c:out value="${userId}"/>さん！ <%= Helper.getToday() %></h4>
+	 <h4 class="my-3">ようこそ<c:out value="${userId}"/>さん！ <%= JSPHelper.getToday() %></h4>
 
 	 <h1 class="display-4">ToDoの追加</h1>
 
